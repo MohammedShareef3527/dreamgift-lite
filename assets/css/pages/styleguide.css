@@ -1,0 +1,127 @@
+/* styleguide.css — layout for /styleguide only. */
+
+.sg { padding-block: var(--s-7) var(--s-10); }
+
+.sg-intro { max-width: 680px; }
+.sg-intro .lead { margin-top: var(--s-3); }
+
+.sg-toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin-top: var(--s-5);
+}
+
+.sg-toc a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  padding: 0 var(--s-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.sg-toc a:hover { border-color: var(--burgundy); text-decoration: none; }
+
+.sg-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-4);
+  padding-top: var(--s-8);
+  margin-top: var(--s-8);
+  border-top: 1px solid var(--border);
+  scroll-margin-top: var(--s-4);
+}
+
+.sg-section > h2 { font-size: var(--fs-2xl); }
+
+.sg-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-4);
+}
+
+@media (min-width: 768px) {
+  .sg-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Colour swatches */
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--s-4);
+  padding: 0;
+  list-style: none;
+}
+
+.swatch {
+  display: grid;
+  gap: 2px;
+  font-size: var(--fs-sm);
+}
+
+.swatch__chip {
+  height: 72px;
+  margin-bottom: var(--s-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.swatch__chip--ivory { background: var(--ivory); }
+.swatch__chip--ivory-deep { background: var(--ivory-deep); }
+.swatch__chip--champagne { background: var(--champagne); }
+.swatch__chip--burgundy { background: var(--burgundy); }
+.swatch__chip--burgundy-dark { background: var(--burgundy-dark); }
+.swatch__chip--ink { background: var(--ink); }
+.swatch__chip--muted { background: var(--muted); }
+.swatch__chip--sage { background: var(--sage); }
+.swatch__chip--amber { background: var(--amber); }
+.swatch__chip--rose { background: var(--rose); }
+
+/* Type specimens use the heading styles without adding headings to the outline. */
+.h1-sample,
+.h2-sample,
+.h3-sample {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--burgundy);
+  line-height: var(--lh-tight);
+}
+
+.h1-sample { font-size: var(--fs-3xl); }
+.h2-sample { font-size: var(--fs-2xl); }
+.h3-sample { font-size: var(--fs-xl); }
+
+.sg-numbers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2) var(--s-5);
+  font-size: var(--fs-xl);
+  font-weight: 600;
+}
+
+/* Form demo */
+.sg-form {
+  display: grid;
+  gap: var(--s-5);
+  max-width: var(--w-public);
+}
+
+.sg-form__row {
+  display: grid;
+  gap: var(--s-5);
+}
+
+@media (min-width: 560px) {
+  .sg-form__row { grid-template-columns: 1fr 1fr; }
+}
+
+.sg-legend { margin-bottom: var(--s-2); }
+
+.sg-ornament { margin-top: var(--s-4); }
+
+.sg-skeleton-gap { margin-block: var(--s-5); }

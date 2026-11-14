@@ -1,0 +1,7 @@
+.vercel
+.env
+.env.*
+node_modules/
+supabase/.temp/
+.DS_Store
+Thumbs.db

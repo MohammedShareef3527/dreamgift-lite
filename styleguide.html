@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Style guide · DreamGift Lite</title>
+  <meta name="description" content="The DreamGift Lite design system: colours, type, and every interface component in one place.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#FAF6EF">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="DreamGift Lite">
+  <meta property="og:title" content="Style guide · DreamGift Lite">
+  <meta property="og:description" content="The DreamGift Lite design system: colours, type, and every interface component in one place.">
+  <meta property="og:image" content="/assets/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="DreamGift Lite — pool a wedding gift with friends">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Style guide · DreamGift Lite">
+  <meta name="twitter:description" content="The DreamGift Lite design system: colours, type, and every interface component in one place.">
+  <meta name="twitter:image" content="/assets/img/og-image.png">
+
+  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Inter:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/components.css">
+  <link rel="stylesheet" href="/assets/css/pages/styleguide.css">
+  <script type="module" src="/assets/js/pages/styleguide.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <svg class="visually-hidden" aria-hidden="true" focusable="false">
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 15V6a2 2 0 0 1 2-2h8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-gift" viewBox="0 0 24 24"><rect x="3.5" y="8.5" width="17" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 12.5v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7M12 8.5v12M12 8.5S10.5 4 8 4.5 7 8.5 12 8.5zm0 0s1.5-4.5 4-4 1 4-4 4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="i-cloud-off" viewBox="0 0 24 24"><path d="M3 3l18 18M8.5 8.6A5 5 0 0 0 7 18h10.5M20.6 16.4A3.5 3.5 0 0 0 17 11h-.2A5 5 0 0 0 11 7.1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-whatsapp" viewBox="0 0 24 24"><path d="M4 20l1.2-3.9A8 8 0 1 1 8 19z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 9.5c.3 2.2 2.3 4.4 4.6 5l1.2-1.3-1.7-.9-.8.8c-.9-.4-1.7-1.2-2.1-2.1l.8-.8-.9-1.7z" fill="currentColor"/></symbol>
+  </svg>
+
+  <header class="site-header">
+    <div class="container container--wide site-header__inner">
+      <a class="brand" href="/">DreamGift <span class="brand__lite">Lite</span></a>
+      <span class="eyebrow">Design system</span>
+    </div>
+  </header>
+
+  <main id="main" class="container container--wide sg">
+    <section class="sg-intro" aria-labelledby="sg-title">
+      <p class="eyebrow">Style guide</p>
+      <h1 id="sg-title">Luxury wedding editorial, trustworthy fintech</h1>
+      <p class="lead">Every colour, type style and component DreamGift Lite is built from. Calm, warm and spacious, so a friend can chip in within a minute.</p>
+      <nav class="sg-toc" aria-label="Sections">
+        <a href="#colour">Colour</a>
+        <a href="#type">Type</a>
+        <a href="#buttons">Buttons</a>
+        <a href="#forms">Forms</a>
+        <a href="#progress">Progress</a>
+        <a href="#cards">Cards</a>
+        <a href="#badges">Badges</a>
+        <a href="#blessings">Blessings</a>
+        <a href="#overlays">Sheet &amp; toast</a>
+        <a href="#states">Loading &amp; states</a>
+        <a href="#table">Table</a>
+      </nav>
+    </section>
+
+    <!-- ===================== Colour ===================== -->
+    <section class="sg-section" id="colour" aria-labelledby="colour-title">
+      <h2 id="colour-title">Colour</h2>
+      <p class="text-muted">Contrast is measured against ivory. Champagne, sage and amber are for fills, dots and borders; their darker ink shades carry text.</p>
+      <ul class="swatches">
+        <li class="swatch"><span class="swatch__chip swatch__chip--ivory"></span><strong>Ivory</strong><span class="num">#FAF6EF</span><span class="text-muted">Background</span></li>
+        <li class="swatch"><span class="swatch__chip swatch__chip--ivory-deep"></span><strong>Ivory deep</strong><span class="num">#F1E9DC</span><span class="text-muted">Cards</span></li>
+        <li class="swatch"><span class="swatch__chip swatch__chip--champagne"></span><strong>Champagne</strong><span class="num">#C9A96E</span><span class="text-muted">Progress, accents · never text</span></li>
+        <li class="swatch"><span class="swatch__chip swatch__chip--burgundy"></span><strong>Burgundy</strong><span class="num">#6B1E2E</span><span class="text-muted">Primary, headings · 10.5:1</span></li>
+        <li class="swatch"><span class="swatch__chip swatch__chip--burgundy-dark"></span><strong>Burgundy dark</strong><span class="num">#521522</span><span class="text-muted">Hover, pressed</span></li>
+        <li class="swatch"><span class="swatch__chip swatch__chip--ink"></span><strong>Ink</strong><span class="num">#2A2320</span><span class="text-muted">Body text · 14.3:1</span></li>
+        <li class="swatch"><span class="swatch__chip swatch__chip--muted"></span><strong>Muted</strong><span class="num">#6E625A</span><span class="text-muted">Secondary text · 5.5:1</span></li>
+        <li class="swatch"><span class="swatch__chip swatch__chip--sage"></span><strong>Sage</strong><span class="num">#5F7F68</span><span class="text-muted">Confirmed · text uses #3F5E48</span></li>
+        <li class="swatch"><span class="swatch__chip swatch__chip--amber"></span><strong>Amber</strong><span class="num">#B7791F</span><span class="text-muted">Waiting · text uses #8A5A12</span></li>
+        <li class="swatch"><span class="swatch__chip swatch__chip--rose"></span><strong>Rose</strong><span class="num">#A23B3B</span><span class="text-muted">Errors · 6.0:1</span></li>
+      </ul>
+    </section>
+
+    <!-- ===================== Type ===================== -->
+    <section class="sg-section" id="type" aria-labelledby="type-title">
+      <h2 id="type-title">Type</h2>
+      <div class="card card--surface stack">
+        <p class="eyebrow">Display · Cormorant Garamond 600</p>
+        <p class="display">Ananya &amp; Rohan</p>
+        <p class="eyebrow">Heading 1</p>
+        <p class="h1-sample">Honeymoon dinner in Goa</p>
+        <p class="eyebrow">Heading 2</p>
+        <p class="h2-sample">Blessings from friends</p>
+        <p class="eyebrow">Heading 3</p>
+        <p class="h3-sample">Your gift pages</p>
+        <div class="ornament" aria-hidden="true"><span class="ornament__mark"></span></div>
+        <p class="eyebrow">Lead · Inter 400</p>
+        <p class="lead">Eight friends, one gift, zero chasing. Everyone chips in by UPI and leaves a blessing the couple will keep.</p>
+        <p class="eyebrow">Body · Inter 400</p>
+        <p>We met Ananya in first year and Rohan the day he showed up with chai for the whole hostel. A table by the sea on their first night in Goa feels exactly right.</p>
+        <p class="eyebrow">Numbers · Inter 600, tabular, Indian grouping</p>
+        <p class="sg-numbers num"><span>₹500</span><span>₹5,000</span><span>₹42,500</span><span>₹1,00,000</span></p>
+      </div>
+    </section>
+
+    <!-- ===================== Buttons ===================== -->
+    <section class="sg-section" id="buttons" aria-labelledby="buttons-title">
+      <h2 id="buttons-title">Buttons</h2>
+      <div class="card card--surface stack">
+        <div class="cluster">
+          <button class="btn btn--primary" type="button">Chip in</button>
+          <button class="btn btn--secondary" type="button">Copy link</button>
+          <button class="btn btn--ghost" type="button">Edit gift</button>
+          <button class="btn btn--primary" type="button" disabled>Closed</button>
+        </div>
+        <div class="cluster">
+          <button class="btn btn--primary btn--lg" type="button">Start a group gift</button>
+          <button class="btn btn--secondary btn--sm" type="button">Export CSV</button>
+          <button class="btn btn--secondary btn--icon" type="button" aria-label="Copy UPI ID"><svg aria-hidden="true"><use href="#i-copy"/></svg></button>
+          <button class="btn btn--secondary" type="button"><svg aria-hidden="true"><use href="#i-whatsapp"/></svg>Share on WhatsApp</button>
+        </div>
+        <div class="cluster">
+          <button class="btn btn--primary" type="button" id="busyDemo">Save gift</button>
+          <span class="text-sm text-muted">Tap to see the loading state. It can't be pressed twice.</span>
+        </div>
+        <button class="btn btn--primary btn--block" type="button">Pay ₹1,000 with UPI</button>
+      </div>
+    </section>
+
+    <!-- ===================== Forms ===================== -->
+    <section class="sg-section" id="forms" aria-labelledby="forms-title">
+      <h2 id="forms-title">Forms</h2>
+      <form class="card card--surface sg-form" id="demoForm" novalidate>
+        <div class="field">
+          <label class="field__label" for="demoName">Your name</label>
+          <input class="input" id="demoName" name="name" autocomplete="name" maxlength="60" aria-describedby="demoName-hint" value="Priya">
+          <p class="field__hint" id="demoName-hint">This is how the couple will see you.</p>
+          <p class="field__error" id="demoName-error" hidden></p>
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="demoUpi">Your UPI ID</label>
+          <input class="input" id="demoUpi" name="upi" inputmode="email" autocomplete="off" autocapitalize="none" spellcheck="false" aria-describedby="demoUpi-hint" value="rahul.mehta">
+          <p class="field__hint" id="demoUpi-hint">Friends pay this ID directly, for example name@okhdfcbank.</p>
+          <p class="field__error" id="demoUpi-error" hidden></p>
+        </div>
+
+        <div class="sg-form__row">
+          <div class="field">
+            <label class="field__label" for="demoTarget">Target amount</label>
+            <div class="input-affix">
+              <span class="input-affix__prefix" aria-hidden="true">₹</span>
+              <input class="input num" id="demoTarget" name="target" inputmode="numeric" value="60,000">
+            </div>
+          </div>
+          <div class="field">
+            <label class="field__label" for="demoDeadline">Deadline <span class="field__optional">(optional)</span></label>
+            <input class="input" id="demoDeadline" name="deadline" type="date" value="2026-12-12">
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="field__meta">
+            <label class="field__label" for="demoBlessing">Add your blessing</label>
+            <span class="field__counter" id="demoBlessingCount" aria-hidden="true"></span>
+          </div>
+          <textarea class="input" id="demoBlessing" name="blessing" maxlength="300" aria-describedby="demoBlessing-hint">Wishing you a lifetime of long dinners, inside jokes and sunsets in Goa. So happy for you both!</textarea>
+          <p class="field__hint" id="demoBlessing-hint">Up to 300 characters.</p>
+        </div>
+
+        <fieldset class="chips">
+          <legend class="field__label sg-legend">Amount</legend>
+          <div class="chips__options">
+            <label class="chip"><input class="chip__input" type="radio" name="amount" value="50000"><span class="chip__face">₹500</span></label>
+            <label class="chip"><input class="chip__input" type="radio" name="amount" value="100000" checked><span class="chip__face">₹1,000</span></label>
+            <label class="chip"><input class="chip__input" type="radio" name="amount" value="200000"><span class="chip__face">₹2,000</span></label>
+            <label class="chip"><input class="chip__input" type="radio" name="amount" value="500000"><span class="chip__face">₹5,000</span></label>
+            <label class="chip"><input class="chip__input" type="radio" name="amount" value="custom"><span class="chip__face">Other</span></label>
+          </div>
+        </fieldset>
+
+        <label class="toggle">
+          <input class="toggle__input" type="checkbox" role="switch" checked>
+          <span class="toggle__track" aria-hidden="true"></span>
+          <span class="toggle__text">
+            <span class="toggle__label">Show my name publicly</span>
+            <span class="toggle__hint">Otherwise you'll appear as "A friend".</span>
+          </span>
+        </label>
+
+        <div class="cluster">
+          <button class="btn btn--primary" type="submit">Check these details</button>
+          <button class="btn btn--ghost" type="button" id="clearErrors">Clear errors</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ===================== Progress ===================== -->
+    <section class="sg-section" id="progress" aria-labelledby="progress-title">
+      <h2 id="progress-title">Progress</h2>
+      <div class="sg-grid">
+        <div class="card card--surface">
+          <div class="progress-summary">
+            <span class="progress-summary__raised">₹42,000</span>
+            <span class="progress-summary__target">raised of ₹60,000</span>
+          </div>
+          <div class="progress progress--lg" id="demoProgress" role="progressbar" aria-label="Raised so far" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-value="0.7" data-text="₹42,000 of ₹60,000">
+            <div class="progress__fill"></div>
+          </div>
+          <div class="progress-stats">
+            <span><strong>7</strong> friends chipped in</span>
+            <span><strong>12</strong> days left</span>
+          </div>
+        </div>
+        <div class="card card--surface">
+          <div class="progress-summary">
+            <span class="progress-summary__raised">₹60,000</span>
+            <span class="progress-summary__target">target reached</span>
+          </div>
+          <div class="progress progress--lg" id="demoProgressFull" role="progressbar" aria-label="Raised so far" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-value="1" data-text="₹60,000 of ₹60,000">
+            <div class="progress__fill"></div>
+          </div>
+          <div class="progress-stats">
+            <span><strong>9</strong> friends chipped in</span>
+            <span>You made their day ✨</span>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn--ghost btn--sm" type="button" id="replayProgress">Replay animation</button>
+    </section>
+
+    <!-- ===================== Cards ===================== -->
+    <section class="sg-section" id="cards" aria-labelledby="cards-title">
+      <h2 id="cards-title">Cards &amp; notices</h2>
+      <div class="sg-grid">
+        <article class="card">
+          <p class="eyebrow">For Ananya &amp; Rohan · 12 Dec 2026</p>
+          <h3 class="card__title">Honeymoon dinner in Goa</h3>
+          <p class="text-muted">₹42,000 of ₹60,000 · 7 friends</p>
+        </article>
+        <article class="card card--surface stack">
+          <div class="notice">
+            <svg aria-hidden="true"><use href="#i-shield"/></svg>
+            <p>Payments go directly to Rahul's UPI. DreamGift Lite never holds your money.</p>
+          </div>
+          <div class="field">
+            <span class="field__label" id="copyUpiLabel">UPI ID</span>
+            <div class="copy-field">
+              <span class="copy-field__value" id="copyUpiValue">rahul.mehta@okhdfcbank</span>
+              <button class="btn btn--ghost btn--sm" type="button" id="copyUpi" aria-describedby="copyUpiLabel"><svg aria-hidden="true"><use href="#i-copy"/></svg>Copy</button>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="ornament sg-ornament" aria-hidden="true"><span class="ornament__mark"></span></div>
+    </section>
+
+    <!-- ===================== Badges ===================== -->
+    <section class="sg-section" id="badges" aria-labelledby="badges-title">
+      <h2 id="badges-title">Status badges</h2>
+      <div class="cluster">
+        <span class="badge badge--pledged">Pledged</span>
+        <span class="badge badge--waiting">Waiting</span>
+        <span class="badge badge--confirmed">Confirmed</span>
+        <span class="badge badge--rejected">Rejected</span>
+        <span class="badge badge--closed">Closed</span>
+      </div>
+    </section>
+
+    <!-- ===================== Blessings ===================== -->
+    <section class="sg-section" id="blessings" aria-labelledby="blessings-title">
+      <h2 id="blessings-title">Blessings wall</h2>
+      <ul class="blessings">
+        <li class="blessing">
+          <p class="blessing__text">From hostel maggi at 2am to this. Proud of you both. Eat everything on the menu!</p>
+          <p class="blessing__footer"><span class="blessing__name">Karthik</span><span>2 days ago</span></p>
+        </li>
+        <li class="blessing">
+          <p class="blessing__text">May every year together feel like the first evening by the sea.</p>
+          <p class="blessing__footer"><span class="blessing__name">A friend</span><span>5 days ago</span></p>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ===================== Sheet & toast ===================== -->
+    <section class="sg-section" id="overlays" aria-labelledby="overlays-title">
+      <h2 id="overlays-title">Sheet &amp; toast</h2>
+      <p class="text-muted">A bottom sheet on phones and a centred modal from 768px. Esc, the close button and a tap outside all close it, and focus goes back to the button that opened it.</p>
+      <div class="cluster">
+        <button class="btn btn--primary" type="button" id="openSheet">Chip in</button>
+        <button class="btn btn--secondary" type="button" data-toast="success">Success toast</button>
+        <button class="btn btn--secondary" type="button" data-toast="error">Error toast</button>
+        <button class="btn btn--secondary" type="button" data-toast="info">Info toast</button>
+      </div>
+    </section>
+
+    <!-- ===================== Loading & states ===================== -->
+    <section class="sg-section" id="states" aria-labelledby="states-title">
+      <h2 id="states-title">Loading, empty &amp; error</h2>
+      <div class="sg-grid">
+        <div class="card card--surface" aria-busy="true">
+          <span class="visually-hidden">Loading gift…</span>
+          <span class="skeleton skeleton--title"></span>
+          <div class="sg-skeleton-gap">
+            <span class="skeleton skeleton--text"></span>
+            <span class="skeleton skeleton--text"></span>
+            <span class="skeleton skeleton--text skeleton--short"></span>
+          </div>
+          <span class="skeleton skeleton--bar"></span>
+        </div>
+        <div class="card card--surface state">
+          <span class="state__icon" aria-hidden="true"><svg><use href="#i-gift"/></svg></span>
+          <h3 class="state__title">No gift pages yet</h3>
+          <p class="state__text">Start one in two minutes and share it on WhatsApp.</p>
+          <div class="state__actions"><a class="btn btn--primary" href="/create">Start a group gift</a></div>
+        </div>
+        <div class="card card--surface state">
+          <span class="state__icon" aria-hidden="true"><svg><use href="#i-heart"/></svg></span>
+          <h3 class="state__title">Be the first to bless them</h3>
+          <p class="state__text">Blessings from friends will appear here.</p>
+        </div>
+        <div class="card card--surface state state--error" role="group" aria-labelledby="errTitle">
+          <span class="state__icon" aria-hidden="true"><svg><use href="#i-cloud-off"/></svg></span>
+          <h3 class="state__title" id="errTitle">We couldn't load this gift</h3>
+          <p class="state__text">Check your connection and try again.</p>
+          <div class="state__actions"><button class="btn btn--secondary" type="button" id="retryDemo">Try again</button></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Table ===================== -->
+    <section class="sg-section" id="table" aria-labelledby="table-title">
+      <h2 id="table-title">Contributions table</h2>
+      <p class="text-muted">Below 640px each row becomes a small card.</p>
+      <div class="table-wrap">
+        <table class="table">
+          <caption class="visually-hidden">Contributions to Honeymoon dinner in Goa</caption>
+          <thead>
+            <tr><th scope="col">Name</th><th scope="col" class="num">Amount</th><th scope="col">Status</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="Name">Karthik</td>
+              <td data-label="Amount" class="num">₹2,000</td>
+              <td data-label="Status"><span class="badge badge--waiting">Waiting</span></td>
+              <td><div class="table__actions"><button class="btn btn--primary btn--sm" type="button">Confirm</button><button class="btn btn--ghost btn--sm" type="button">Reject</button></div></td>
+            </tr>
+            <tr>
+              <td data-label="Name">Priya</td>
+              <td data-label="Amount" class="num">₹5,000</td>
+              <td data-label="Status"><span class="badge badge--confirmed">Confirmed</span></td>
+              <td><div class="table__actions"><button class="btn btn--ghost btn--sm" type="button">Undo</button></div></td>
+            </tr>
+            <tr>
+              <td data-label="Name">Sneha (cash)</td>
+              <td data-label="Amount" class="num">₹1,000</td>
+              <td data-label="Status"><span class="badge badge--confirmed">Confirmed</span></td>
+              <td><div class="table__actions"><button class="btn btn--ghost btn--sm" type="button">Edit</button></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <dialog class="sheet" id="chipSheet" aria-labelledby="chipSheetTitle">
+    <div class="sheet__handle" aria-hidden="true"></div>
+    <div class="sheet__header">
+      <h2 class="sheet__title" id="chipSheetTitle">Chip in for Ananya &amp; Rohan</h2>
+      <button class="btn btn--ghost btn--icon" type="button" data-sheet-close aria-label="Close"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+    </div>
+    <div class="sheet__body stack">
+      <div class="field">
+        <label class="field__label" for="sheetName">Your name</label>
+        <input class="input" id="sheetName" autocomplete="name" maxlength="60">
+      </div>
+      <fieldset class="chips">
+        <legend class="field__label sg-legend">Amount</legend>
+        <div class="chips__options">
+          <label class="chip"><input class="chip__input" type="radio" name="sheetAmount" value="50000"><span class="chip__face">₹500</span></label>
+          <label class="chip"><input class="chip__input" type="radio" name="sheetAmount" value="100000" checked><span class="chip__face">₹1,000</span></label>
+          <label class="chip"><input class="chip__input" type="radio" name="sheetAmount" value="200000"><span class="chip__face">₹2,000</span></label>
+          <label class="chip"><input class="chip__input" type="radio" name="sheetAmount" value="500000"><span class="chip__face">₹5,000</span></label>
+        </div>
+      </fieldset>
+      <div class="notice">
+        <svg aria-hidden="true"><use href="#i-shield"/></svg>
+        <p>Payments go directly to Rahul's UPI. DreamGift Lite never holds your money.</p>
+      </div>
+    </div>
+    <div class="sheet__footer">
+      <button class="btn btn--primary btn--block" type="button" data-sheet-close>Pay ₹1,000 with UPI</button>
+    </div>
+  </dialog>
+</body>
+</html>

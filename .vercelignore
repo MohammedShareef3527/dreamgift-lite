@@ -1,0 +1,6 @@
+supabase/
+tests/
+tools/
+README.md
+.env
+.env.*

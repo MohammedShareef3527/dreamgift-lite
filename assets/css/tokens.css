@@ -1,0 +1,103 @@
+/*
+ * tokens.css — the DreamGift Lite design tokens.
+ * Every colour, size and duration used anywhere comes from here.
+ */
+:root {
+  /* ---------- Brand colour ---------- */
+  --ivory: #FAF6EF;          /* page background */
+  --ivory-deep: #F1E9DC;     /* cards, quiet surfaces */
+  --champagne: #C9A96E;      /* progress, accents, dividers — never body text (2.1:1) */
+  --burgundy: #6B1E2E;       /* primary buttons, headings */
+  --burgundy-dark: #521522;  /* hover / pressed */
+  --ink: #2A2320;            /* body text (14.3:1 on ivory) */
+  --muted: #6E625A;          /* secondary text (5.5:1 on ivory, 4.9:1 on ivory-deep) */
+  --sage: #5F7F68;           /* confirmed — dots, fills, borders */
+  --amber: #B7791F;          /* waiting — dots, fills, borders */
+  --rose: #A23B3B;           /* errors (6.0:1 on ivory, safe for text) */
+
+  /* ---------- Derived colour ----------
+   * Sage (4.1:1) and amber (3.4:1) are too light for small text, so text on
+   * their tints uses the darker "-ink" shades below (all ≥ 5:1). */
+  --surface: #FFFDF9;        /* inputs, sheets, toasts */
+  --sage-ink: #3F5E48;
+  --sage-tint: #E8EFE9;
+  --amber-ink: #8A5A12;
+  --amber-tint: #F8EEDC;
+  --rose-ink: #8F2F2F;
+  --rose-tint: #F6E4E2;
+  --neutral-ink: #5A4F48;
+  --neutral-tint: #EEE8E0;
+  --burgundy-tint: #F3E6E4;
+  --champagne-tint: #F4EADA;
+
+  --border: #E2D8C8;         /* decorative 1px borders on cards and dividers */
+  --border-input: #8C7E72;   /* form controls need 3:1 against their background (3.9:1) */
+  --focus: var(--burgundy);
+  --overlay: rgb(42 35 32 / 0.45);
+
+  /* ---------- Type ---------- */
+  --font-display: "Cormorant Garamond", "Cormorant", Garamond, "Times New Roman", serif;
+  --font-body: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* Fluid scale: the min size is for 375px screens, the max for 1280px. */
+  --fs-xs: 0.8125rem;                                         /* 13px */
+  --fs-sm: 0.875rem;                                          /* 14px */
+  --fs-base: 1rem;                                            /* 16px */
+  --fs-lg: clamp(1.0625rem, 1.01rem + 0.22vw, 1.1875rem);     /* 17 → 19 */
+  --fs-xl: clamp(1.375rem, 1.24rem + 0.58vw, 1.75rem);        /* 22 → 28 */
+  --fs-2xl: clamp(1.75rem, 1.49rem + 1.1vw, 2.5rem);          /* 28 → 40 */
+  --fs-3xl: clamp(2.25rem, 1.8rem + 1.93vw, 3.5rem);          /* 36 → 56 */
+  --fs-display: clamp(2.75rem, 2.1rem + 2.76vw, 4.5rem);      /* 44 → 72 */
+
+  --lh-tight: 1.15;
+  --lh-snug: 1.35;
+  --lh-body: 1.6;
+
+  /* ---------- Space (4px base, 8px rhythm) ---------- */
+  --s-1: 0.25rem;   /* 4 */
+  --s-2: 0.5rem;    /* 8 */
+  --s-3: 0.75rem;   /* 12 */
+  --s-4: 1rem;      /* 16 */
+  --s-5: 1.5rem;    /* 24 */
+  --s-6: 2rem;      /* 32 */
+  --s-7: 2.5rem;    /* 40 */
+  --s-8: 3rem;      /* 48 */
+  --s-9: 4rem;      /* 64 */
+  --s-10: 5rem;     /* 80 */
+
+  --gutter: var(--s-4);
+  --w-public: 560px;
+  --w-dashboard: 960px;
+  --tap: 44px;      /* minimum tap target */
+  --control-h: 48px;
+
+  /* ---------- Shape ---------- */
+  --radius-card: 16px;
+  --radius-input: 12px;
+  --radius-sm: 8px;
+  --radius-pill: 999px;
+  --shadow-overlay: 0 24px 48px -16px rgb(42 35 32 / 0.25), 0 2px 6px rgb(42 35 32 / 0.06);
+
+  /* ---------- Motion ---------- */
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --dur-fast: 200ms;
+  --dur: 250ms;
+  --dur-slow: 300ms;
+  --dur-progress: 900ms;    /* the one deliberately slower motion: the progress fill on load */
+
+  --z-sheet: 50;
+  --z-toast: 60;
+}
+
+@media (min-width: 768px) {
+  :root { --gutter: var(--s-5); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur: 0ms;
+    --dur-slow: 0ms;
+    --dur-progress: 0ms;
+  }
+}
