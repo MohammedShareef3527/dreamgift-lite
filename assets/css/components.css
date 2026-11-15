@@ -938,3 +938,74 @@ html:has(dialog[open]) { overflow: hidden; }
   background: var(--sage-tint);
   color: var(--sage-ink);
 }
+
+/* ============ Brand colour layer (Phase 3 refresh) ============ */
+
+/* Burgundy header with a gold hairline, on every page. */
+.site-header {
+  --focus: var(--champagne);
+  position: relative;
+  border-bottom: 0;
+  background: var(--burgundy);
+  color: var(--ivory);
+}
+
+.site-header::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--champagne) 20%, var(--champagne) 80%, transparent);
+  opacity: 0.85;
+}
+
+.site-header .brand,
+.site-header .brand:hover { color: var(--ivory); }
+.site-header .brand__lite { color: var(--champagne); }
+.site-header .site-nav__link,
+.site-header .site-nav__link:hover { color: var(--ivory); }
+.site-header .btn--ghost { --btn-fg: var(--ivory); }
+.site-header .btn--ghost:hover:not(:disabled) { --btn-bg: rgb(255 255 255 / 0.1); }
+.site-header .btn--secondary { --btn-bg: transparent; --btn-fg: var(--ivory); --btn-border: var(--champagne); }
+.site-header .btn--secondary:hover:not(:disabled) { --btn-bg: rgb(201 169 110 / 0.18); }
+
+/* Gold call-to-action for burgundy backgrounds (burgundy-dark on champagne: 6.5:1). */
+.btn--gold {
+  --btn-bg: var(--champagne);
+  --btn-fg: var(--burgundy-dark);
+  box-shadow: 0 10px 24px -12px rgb(0 0 0 / 0.5);
+}
+
+.btn--gold:hover:not(:disabled),
+.btn--gold:active:not(:disabled) { --btn-bg: #D8BE8A; }
+
+/* Light ghost button for burgundy backgrounds. */
+.btn--ghost-light {
+  --btn-fg: var(--ivory);
+  --btn-border: rgb(250 246 239 / 0.45);
+}
+
+.btn--ghost-light:hover:not(:disabled) { --btn-bg: rgb(255 255 255 / 0.1); --btn-border: var(--ivory); }
+
+/* Gold accent along the top of a card. */
+.card--accent {
+  position: relative;
+  overflow: hidden;
+}
+
+.card--accent::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 4px;
+  background: linear-gradient(90deg, var(--burgundy), var(--champagne));
+}
+
+/* Warm wash behind the top of app pages. */
+.page-glow {
+  background:
+    radial-gradient(900px 420px at 15% -120px, rgb(201 169 110 / 0.28), transparent 70%),
+    radial-gradient(700px 360px at 95% 0, rgb(107 30 46 / 0.08), transparent 70%),
+    var(--ivory);
+  background-repeat: no-repeat;
+}

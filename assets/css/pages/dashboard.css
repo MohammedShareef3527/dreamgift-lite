@@ -48,3 +48,15 @@
   gap: var(--s-2);
   margin-top: var(--s-2);
 }
+
+.dash__head h1::after {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 2px;
+  margin-top: var(--s-3);
+  background: linear-gradient(90deg, var(--burgundy), var(--champagne));
+}
+
+.gift-card { box-shadow: 0 16px 36px -26px rgb(82 21 34 / 0.45); }
+.gift-card__title { color: var(--burgundy); }

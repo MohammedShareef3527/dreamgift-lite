@@ -34,7 +34,7 @@
   <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/+esm" crossorigin>
   <script type="module" src="/assets/js/pages/index.js"></script>
 </head>
-<body>
+<body class="page-home">
   <a class="skip-link" href="#main">Skip to content</a>
 
   <svg class="visually-hidden" aria-hidden="true" focusable="false">
@@ -56,14 +56,15 @@
   </header>
 
   <main id="main">
+    <div class="hero-band">
     <section class="container container--wide hero" aria-labelledby="hero-title">
       <div class="hero__copy">
-        <p class="eyebrow">For the friend who always organises</p>
-        <h1 class="display" id="hero-title">One gift, from all of you</h1>
+        <p class="eyebrow hero__eyebrow">For the friend who always organises</p>
+        <h1 class="display" id="hero-title">One gift, <em>from all of you</em></h1>
         <p class="lead">Pool money for a friend's wedding on one beautiful page. Friends chip in by UPI straight to you, leave a blessing, and the couple keeps every word.</p>
         <div class="cluster hero__actions">
-          <a class="btn btn--primary btn--lg" href="/create" id="startGift">Start a group gift</a>
-          <a class="btn btn--ghost btn--lg" href="#how">How it works</a>
+          <a class="btn btn--gold btn--lg" href="/create" id="startGift">Start a group gift</a>
+          <a class="btn btn--ghost-light btn--lg" href="#how">How it works</a>
         </div>
         <div class="notice hero__notice">
           <svg aria-hidden="true"><use href="#i-shield"/></svg>
@@ -86,9 +87,10 @@
             <p class="blessing__footer"><span class="blessing__name">Priya</span><span>2 days ago</span></p>
           </div>
         </div>
-        <figcaption class="text-sm text-muted">What friends see when you share the link</figcaption>
+        <figcaption class="text-sm hero__caption">What friends see when you share the link</figcaption>
       </figure>
     </section>
+    </div>
 
     <section class="how" id="how" aria-labelledby="how-title">
       <div class="container container--wide">
@@ -115,6 +117,7 @@
 
     <section class="container sign-in" id="sign-in" aria-labelledby="signin-title" tabindex="-1">
       <div class="card card--surface sign-in__card">
+        <div class="ornament sign-in__ornament" aria-hidden="true"><span class="ornament__mark"></span></div>
         <div id="signInForm-wrap">
           <h2 id="signin-title">Sign in to organise</h2>
           <p class="text-muted">We'll email you a secure link. No password to remember.</p>

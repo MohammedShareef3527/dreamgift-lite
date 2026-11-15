@@ -49,3 +49,22 @@
 }
 
 .page-state > * + * { margin-top: var(--s-4); }
+
+/* Gold flourish before each section title. */
+.form-section__title {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.form-section__title::before {
+  content: "";
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid var(--champagne);
+  background: var(--champagne-tint);
+  transform: rotate(45deg);
+}
+
+.create__intro .eyebrow { color: var(--burgundy); }
