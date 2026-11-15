@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Start a group gift · DreamGift Lite</title>
+  <meta name="description" content="Create a shared wedding gift page in two minutes. Friends chip in by UPI straight to you and leave a blessing.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#FAF6EF">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="DreamGift Lite">
+  <meta property="og:title" content="Start a group gift · DreamGift Lite">
+  <meta property="og:description" content="Create a shared wedding gift page in two minutes.">
+  <meta property="og:image" content="/assets/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="DreamGift Lite — pool a wedding gift with friends">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Start a group gift · DreamGift Lite">
+  <meta name="twitter:description" content="Create a shared wedding gift page in two minutes.">
+  <meta name="twitter:image" content="/assets/img/og-image.png">
+
+  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Inter:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/components.css">
+  <link rel="stylesheet" href="/assets/css/pages/create.css">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/+esm" crossorigin>
+  <script type="module" src="/assets/js/pages/create.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <svg class="visually-hidden" aria-hidden="true" focusable="false">
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-gift" viewBox="0 0 24 24"><rect x="3.5" y="8.5" width="17" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 12.5v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7M12 8.5v12M12 8.5S10.5 4 8 4.5 7 8.5 12 8.5zm0 0s1.5-4.5 4-4 1 4-4 4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="i-cloud-off" viewBox="0 0 24 24"><path d="M3 3l18 18M8.5 8.6A5 5 0 0 0 7 18h10.5M20.6 16.4A3.5 3.5 0 0 0 17 11h-.2A5 5 0 0 0 11 7.1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  </svg>
+
+  <header class="site-header">
+    <div class="container container--wide site-header__inner">
+      <a class="brand" href="/" aria-label="DreamGift Lite home">DreamGift <span class="brand__lite">Lite</span></a>
+      <nav class="site-nav" aria-label="Account">
+        <a class="site-nav__link" href="/dashboard">Your gifts</a>
+        <button class="btn btn--ghost btn--sm" type="button" id="signOut">Sign out</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="container create">
+    <!-- Shown while we check sign-in and load the gift. -->
+    <div class="page-state" id="loadingState" aria-busy="true">
+      <span class="visually-hidden">Loading…</span>
+      <div class="skeleton skeleton--title" aria-hidden="true"></div>
+      <div class="skeleton skeleton--text" aria-hidden="true"></div>
+      <div class="skeleton skeleton--block" aria-hidden="true"></div>
+    </div>
+
+    <div class="card card--surface state state--error page-state" id="errorState" hidden>
+      <span class="state__icon" aria-hidden="true"><svg><use href="#i-cloud-off"/></svg></span>
+      <h1 class="state__title" id="errorTitle">We couldn't load this gift</h1>
+      <p class="state__text" id="errorText"></p>
+      <div class="state__actions cluster">
+        <button class="btn btn--primary" type="button" id="retryButton">Try again</button>
+        <a class="btn btn--ghost" href="/dashboard">Back to your gifts</a>
+      </div>
+    </div>
+
+    <div id="formView" hidden>
+      <div class="create__intro">
+        <p class="eyebrow" id="formEyebrow">New gift page</p>
+        <h1 id="formTitle">Start a group gift</h1>
+        <p class="lead" id="formLead">Tell friends what you're all giving. You can change any of this later.</p>
+      </div>
+
+      <form class="create__form" id="giftForm" novalidate>
+        <fieldset class="card card--surface form-section">
+          <legend class="form-section__title">The couple</legend>
+          <div class="field">
+            <label class="field__label" for="coupleNames">Couple's names</label>
+            <input class="input" id="coupleNames" name="coupleNames" maxlength="60" autocomplete="off" required aria-describedby="coupleNames-hint">
+            <p class="field__hint" id="coupleNames-hint">As friends know them, for example Ananya &amp; Rohan.</p>
+            <p class="field__error" id="coupleNames-error" hidden></p>
+          </div>
+          <div class="field">
+            <label class="field__label" for="weddingDate">Wedding date</label>
+            <input class="input" id="weddingDate" name="weddingDate" type="date" min="2000-01-01" max="2100-12-31" required>
+            <p class="field__error" id="weddingDate-error" hidden></p>
+          </div>
+        </fieldset>
+
+        <fieldset class="card card--surface form-section">
+          <legend class="form-section__title">The gift</legend>
+          <div class="field">
+            <label class="field__label" for="giftTitle">Gift title</label>
+            <input class="input" id="giftTitle" name="giftTitle" maxlength="80" autocomplete="off" required aria-describedby="giftTitle-hint">
+            <p class="field__hint" id="giftTitle-hint">What you're all chipping in for, for example Honeymoon dinner in Goa.</p>
+            <p class="field__error" id="giftTitle-error" hidden></p>
+          </div>
+          <div class="field">
+            <div class="field__meta">
+              <label class="field__label" for="giftStory">The story <span class="field__optional">(optional)</span></label>
+              <span class="field__counter" id="giftStoryCount" aria-hidden="true"></span>
+            </div>
+            <textarea class="input" id="giftStory" name="giftStory" rows="4" aria-describedby="giftStory-hint"></textarea>
+            <p class="field__hint" id="giftStory-hint">A few warm lines on why this gift. Friends read it first. Up to 500 characters.</p>
+            <p class="field__error" id="giftStory-error" hidden></p>
+          </div>
+          <div class="field">
+            <label class="field__label" for="target">Target amount</label>
+            <div class="input-affix">
+              <span class="input-affix__prefix" aria-hidden="true">₹</span>
+              <input class="input num" id="target" name="target" inputmode="decimal" autocomplete="off" required aria-describedby="target-hint">
+            </div>
+            <p class="field__hint" id="target-hint">The total you hope to raise, in rupees.</p>
+            <p class="field__error" id="target-error" hidden></p>
+          </div>
+        </fieldset>
+
+        <fieldset class="card card--surface form-section">
+          <legend class="form-section__title">Paying you</legend>
+          <div class="field">
+            <label class="field__label" for="organiserName">Your name</label>
+            <input class="input" id="organiserName" name="organiserName" maxlength="60" autocomplete="name" required aria-describedby="organiserName-hint">
+            <p class="field__hint" id="organiserName-hint">Friends see "Waiting for <span id="namePreview">you</span> to confirm".</p>
+            <p class="field__error" id="organiserName-error" hidden></p>
+          </div>
+          <div class="field">
+            <label class="field__label" for="organiserUpi">Your UPI ID</label>
+            <input class="input" id="organiserUpi" name="organiserUpi" inputmode="email" autocomplete="off" autocapitalize="none" spellcheck="false" required aria-describedby="organiserUpi-hint">
+            <p class="field__hint" id="organiserUpi-hint">Friends pay this ID directly, for example name@okhdfcbank. Please double-check it.</p>
+            <p class="field__error" id="organiserUpi-error" hidden></p>
+          </div>
+          <div class="notice">
+            <svg aria-hidden="true"><use href="#i-shield"/></svg>
+            <p>Payments go straight to your UPI. DreamGift Lite never holds the money, and nothing counts as paid until you confirm it.</p>
+          </div>
+        </fieldset>
+
+        <fieldset class="card card--surface form-section">
+          <legend class="form-section__title">Options</legend>
+          <div class="field">
+            <label class="field__label" for="deadline">Deadline <span class="field__optional">(optional)</span></label>
+            <input class="input" id="deadline" name="deadline" type="date" max="2100-12-31" aria-describedby="deadline-hint">
+            <p class="field__hint" id="deadline-hint">After this date the page stops taking new pledges.</p>
+            <p class="field__error" id="deadline-error" hidden></p>
+          </div>
+          <label class="toggle">
+            <input class="toggle__input" id="showAmounts" name="showAmounts" type="checkbox" role="switch">
+            <span class="toggle__track" aria-hidden="true"></span>
+            <span class="toggle__text">
+              <span class="toggle__label">Show amounts on the blessings wall</span>
+              <span class="toggle__hint">Off by default. The progress bar always shows the total.</span>
+            </span>
+          </label>
+        </fieldset>
+
+        <div class="notice notice--error" id="formError" role="alert" hidden>
+          <p id="formErrorText"></p>
+        </div>
+
+        <div class="create__actions">
+          <button class="btn btn--primary btn--lg" type="submit" id="submitButton">Create gift page</button>
+          <a class="btn btn--ghost btn--lg" href="/dashboard" id="cancelLink">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </main>
+</body>
+</html>

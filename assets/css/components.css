@@ -888,3 +888,53 @@ html:has(dialog[open]) { overflow: hidden; }
   .table__actions { padding-top: var(--s-2); }
   .table__actions .btn { flex: 1; }
 }
+
+/* ============ Site nav + footer (added in Phase 3) ============ */
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.site-nav__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  padding: 0 var(--s-2);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.site-nav__link:hover { text-decoration: underline; }
+
+.site-footer {
+  margin-top: var(--s-10);
+  padding-block: var(--s-6);
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: var(--fs-sm);
+}
+
+.site-footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--s-3);
+}
+
+/* Page-level loading / error holder shown before a page's real content. */
+.page-state { padding-block: var(--s-6); }
+
+
+.notice--error {
+  border-left-color: var(--rose);
+  background: var(--rose-tint);
+  color: var(--rose-ink);
+}
+
+.notice--success {
+  border-left-color: var(--sage);
+  background: var(--sage-tint);
+  color: var(--sage-ink);
+}

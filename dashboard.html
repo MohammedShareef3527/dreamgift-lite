@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Your gifts · DreamGift Lite</title>
+  <meta name="description" content="Your DreamGift Lite gift pages: progress, contributions and blessings.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#FAF6EF">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="DreamGift Lite">
+  <meta property="og:title" content="Your gifts · DreamGift Lite">
+  <meta property="og:description" content="Pool a wedding gift with friends on one beautiful page.">
+  <meta property="og:image" content="/assets/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="DreamGift Lite — pool a wedding gift with friends">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Your gifts · DreamGift Lite">
+  <meta name="twitter:description" content="Pool a wedding gift with friends on one beautiful page.">
+  <meta name="twitter:image" content="/assets/img/og-image.png">
+
+  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Inter:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/components.css">
+  <link rel="stylesheet" href="/assets/css/pages/dashboard.css">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/+esm" crossorigin>
+  <script type="module" src="/assets/js/pages/dashboard.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <svg class="visually-hidden" aria-hidden="true" focusable="false">
+    <symbol id="i-gift" viewBox="0 0 24 24"><rect x="3.5" y="8.5" width="17" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 12.5v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7M12 8.5v12M12 8.5S10.5 4 8 4.5 7 8.5 12 8.5zm0 0s1.5-4.5 4-4 1 4-4 4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="i-cloud-off" viewBox="0 0 24 24"><path d="M3 3l18 18M8.5 8.6A5 5 0 0 0 7 18h10.5M20.6 16.4A3.5 3.5 0 0 0 17 11h-.2A5 5 0 0 0 11 7.1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  </svg>
+
+  <header class="site-header">
+    <div class="container container--wide site-header__inner">
+      <a class="brand" href="/" aria-label="DreamGift Lite home">DreamGift <span class="brand__lite">Lite</span></a>
+      <nav class="site-nav" aria-label="Account">
+        <button class="btn btn--ghost btn--sm" type="button" id="signOut">Sign out</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="container container--wide dash">
+    <div class="dash__head">
+      <div>
+        <h1>Your gifts</h1>
+        <p class="text-muted text-sm" id="whoAmI"></p>
+      </div>
+      <a class="btn btn--primary" href="/create" id="newGift">Start a group gift</a>
+    </div>
+
+    <div class="gift-list" id="loadingState" aria-busy="true">
+      <span class="visually-hidden">Loading your gifts…</span>
+      <div class="card card--surface gift-card" aria-hidden="true">
+        <div class="skeleton skeleton--short"></div>
+        <div class="skeleton skeleton--title"></div>
+        <div class="skeleton skeleton--bar"></div>
+      </div>
+      <div class="card card--surface gift-card" aria-hidden="true">
+        <div class="skeleton skeleton--short"></div>
+        <div class="skeleton skeleton--title"></div>
+        <div class="skeleton skeleton--bar"></div>
+      </div>
+    </div>
+
+    <div class="card card--surface state" id="emptyState" hidden>
+      <span class="state__icon" aria-hidden="true"><svg><use href="#i-gift"/></svg></span>
+      <h2 class="state__title">No gift pages yet</h2>
+      <p class="state__text">Start one in two minutes and share it on WhatsApp.</p>
+      <div class="state__actions"><a class="btn btn--primary" href="/create">Start a group gift</a></div>
+    </div>
+
+    <div class="card card--surface state state--error" id="errorState" hidden>
+      <span class="state__icon" aria-hidden="true"><svg><use href="#i-cloud-off"/></svg></span>
+      <h2 class="state__title">We couldn't load your gifts</h2>
+      <p class="state__text" id="errorText"></p>
+      <div class="state__actions"><button class="btn btn--primary" type="button" id="retryButton">Try again</button></div>
+    </div>
+
+    <ul class="gift-list" id="giftList" aria-label="Your gift pages" hidden></ul>
+
+    <template id="giftCardTemplate">
+      <li class="card card--surface gift-card">
+        <div class="gift-card__top">
+          <p class="eyebrow" data-field="for"></p>
+          <span class="badge" data-field="status"></span>
+        </div>
+        <h2 class="gift-card__title" data-field="title"></h2>
+        <div class="progress-summary">
+          <span class="progress-summary__raised num" data-field="raised"></span>
+          <span class="progress-summary__target" data-field="target"></span>
+        </div>
+        <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-field="bar">
+          <div class="progress__fill"></div>
+        </div>
+        <p class="text-sm text-muted" data-field="stats"></p>
+        <div class="gift-card__actions">
+          <a class="btn btn--secondary btn--sm" data-field="edit">Edit details</a>
+        </div>
+      </li>
+    </template>
+  </main>
+</body>
+</html>

@@ -1,0 +1,121 @@
+/* index.css — landing page and sign-in. */
+
+/* ---------- Hero ---------- */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-8);
+  padding-block: var(--s-8) var(--s-9);
+}
+
+.hero__copy > * + * { margin-top: var(--s-4); }
+.hero__copy .display { margin-top: var(--s-3); }
+.hero__actions { margin-top: var(--s-6); }
+.hero__notice { margin-top: var(--s-6); max-width: 46ch; }
+
+.hero__preview {
+  display: grid;
+  gap: var(--s-3);
+  justify-items: center;
+  margin: 0;
+}
+
+.preview {
+  display: grid;
+  gap: var(--s-3);
+  width: 100%;
+  max-width: 420px;
+  box-shadow: var(--shadow-overlay);
+}
+
+.preview__title {
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  font-weight: 600;
+  line-height: var(--lh-tight);
+  color: var(--burgundy);
+}
+
+.preview__bar { --progress: 0.7; }
+.preview__blessing { margin: var(--s-2) 0 0; }
+.preview__blessing .blessing__text { font-size: var(--fs-base); }
+
+@media (min-width: 900px) {
+  .hero {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    align-items: center;
+    padding-block: var(--s-10);
+  }
+}
+
+/* ---------- How it works ---------- */
+.how {
+  padding-block: var(--s-9);
+  border-block: 1px solid var(--border);
+  background: var(--ivory-deep);
+  scroll-margin-top: var(--s-4);
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-5);
+  margin-top: var(--s-6);
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+.step {
+  display: grid;
+  align-content: start;
+  gap: var(--s-2);
+  padding: var(--s-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  counter-increment: step;
+}
+
+.step__icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--champagne-tint);
+  color: var(--burgundy);
+}
+
+.step__icon svg { width: 22px; height: 22px; }
+
+.step__title::before {
+  content: counter(step) ". ";
+  color: var(--muted);
+}
+
+.step p { color: var(--muted); }
+
+@media (min-width: 768px) {
+  .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* ---------- Sign in ---------- */
+.sign-in {
+  padding-block: var(--s-9) 0;
+  scroll-margin-top: var(--s-4);
+}
+
+.sign-in:focus { outline: none; }
+
+.sign-in__card > div > * + * { margin-top: var(--s-4); }
+.sign-in__form { margin-top: var(--s-5); }
+
+.sent {
+  display: grid;
+  justify-items: start;
+}
+
+.sent__title { font-size: var(--fs-2xl); }
+.sent__title:focus { outline: none; }
+.sent__actions { margin-top: var(--s-5); }

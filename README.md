@@ -12,8 +12,8 @@ Stack: plain HTML, CSS and vanilla JavaScript (ES modules) with no build step ·
 |---|---|
 | 1. Foundation (tokens, components, `/styleguide`, `vercel.json`) | ✅ Done |
 | 2. Database (`schema.sql`, `tests.sql`) | ✅ Done (70/70 checks pass on Supabase) |
-| 3. Organiser auth + create gift | Next |
-| 4. Public gift page | — |
+| 3. Organiser auth + create gift (`/`, `/create`, `/dashboard`) | ✅ Done |
+| 4. Public gift page | Next |
 | 5. Dashboard | — |
 | 6. Keepsake + polish | — |
 | 7. Deploy | — |
@@ -23,7 +23,7 @@ Stack: plain HTML, CSS and vanilla JavaScript (ES modules) with no build step ·
 You need Node 20 or newer. There are no packages to install.
 
 ```bash
-node tools/dev-server.mjs        # http://localhost:5173/styleguide
+node tools/dev-server.mjs        # http://localhost:5173  (styleguide at /styleguide)
 node --test tests/               # unit tests
 ```
 
@@ -33,7 +33,8 @@ The dev server applies the clean URLs, rewrites and security headers (including 
 
 1. In the Supabase dashboard, open **SQL Editor → New query**, paste all of [`supabase/schema.sql`](supabase/schema.sql) and click **Run**. It is safe to run again.
 2. In a new query, paste [`supabase/tests.sql`](supabase/tests.sql) and run it. You should see one row: `PASS: all 70 checks passed`. It creates throwaway test organisers and deletes them afterwards.
-3. Put the project URL and **publishable** (or legacy anon) key in [`assets/js/config.js`](assets/js/config.js). Never use the `service_role` / secret key in the front end.
+3. Under **Authentication → URL Configuration**, set **Site URL** to `http://localhost:5173` and add `http://localhost:5173/**` to **Redirect URLs**. Magic links only send people back to addresses on that list. When the app is deployed, add the Vercel domain the same way.
+4. Put the project URL and **publishable** (or legacy anon) key in [`assets/js/config.js`](assets/js/config.js). Never use the `service_role` / secret key in the front end.
 
 How the data is protected:
 
@@ -42,6 +43,10 @@ How the data is protected:
 - A friend's pledge token is stored only as a SHA-256 hash. The raw token lives on the friend's phone.
 - Progress counts **confirmed** money only. The blessings wall shows friends who have marked their pledge as paid or been confirmed, never hidden blessings, and amounts only when the organiser allows it and the money is confirmed.
 - `authenticated` cannot `select *` from `contributions` (the token-hash column is private), so the front end always names its columns.
+
+## Signing in
+
+Organisers sign in with an email magic link (no passwords). The link uses Supabase's implicit flow, so a link requested on a laptop also works when it's opened on a phone. Expired or already-used links bring people back to the sign-in form with a clear message. Supabase's built-in email sender only sends a few emails per hour; for real use, connect your own SMTP provider under **Authentication → Emails**.
 
 ## Project structure
 
@@ -53,6 +58,9 @@ assets/css/components.css    buttons, fields, chips, toggle, progress, cards, ba
 assets/css/pages/            per-page styles
 assets/js/format.js          ₹ formatting (en-IN, paise in / rupees out), dates
 assets/js/ui.js              toast, sheet, busy buttons, progress, field errors, copy
+assets/js/supabase.js        the Supabase client (supabase-js pinned on jsDelivr) + sign-in helpers
+assets/js/api.js             organiser database calls and friendly error messages
+assets/js/validate.js        form rules that mirror the database constraints
 assets/js/pages/             one module per page
 assets/img/                  favicon set, Open Graph image
 tools/dev-server.mjs         local server that mirrors vercel.json
