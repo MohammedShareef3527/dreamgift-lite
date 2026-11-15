@@ -43,6 +43,10 @@ function renderGift(gift) {
   setProgress(bar, ratio(gift.confirmed_paise, gift.target_paise),
     `${formatRupees(gift.confirmed_paise)} of ${formatRupees(gift.target_paise)}`);
 
+  const view = field('view');
+  view.href = `/g/${encodeURIComponent(gift.slug)}`;
+  view.setAttribute('aria-label', `View the gift page for ${gift.gift_title} (opens in a new tab)`);
+
   const edit = field('edit');
   edit.href = `/create?id=${encodeURIComponent(gift.id)}`;
   edit.setAttribute('aria-label', `Edit details of ${gift.gift_title}`);

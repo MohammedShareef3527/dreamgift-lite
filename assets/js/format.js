@@ -102,3 +102,25 @@ export function ratio(part, whole) {
 export function plural(count, one, many = one + 's') {
   return `${count.toLocaleString('en-IN')} ${count === 1 ? one : many}`;
 }
+
+const RELATIVE = new Intl.RelativeTimeFormat('en-IN', { numeric: 'auto' });
+
+/**
+ * "just now", "5 minutes ago", "yesterday", "3 days ago", then a short date.
+ * @param {string|Date} value an ISO timestamp
+ * @param {Date} [now]
+ * @returns {string}
+ */
+export function timeAgo(value, now = new Date()) {
+  const then = value instanceof Date ? value : new Date(value);
+  if (Number.isNaN(then.getTime())) return '';
+  const seconds = Math.round((now - then) / 1000);
+  if (seconds < 60) return 'just now';
+  const minutes = Math.round(seconds / 60);
+  if (minutes < 60) return RELATIVE.format(-minutes, 'minute');
+  const hours = Math.round(minutes / 60);
+  if (hours < 24) return RELATIVE.format(-hours, 'hour');
+  const days = Math.round(hours / 24);
+  if (days < 7) return RELATIVE.format(-days, 'day');
+  return DATE.format(then);
+}

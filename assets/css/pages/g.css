@@ -1,0 +1,253 @@
+/* g.css — the public gift page friends open from WhatsApp. */
+
+.page-gift .site-header::after { display: none; }
+
+/* ---------- Hero: the couple ---------- */
+.gift-hero {
+  --focus: var(--champagne);
+  position: relative;
+  overflow: hidden;
+  padding-block: var(--s-7) calc(var(--s-10) + var(--s-4));
+  color: var(--ivory);
+  text-align: center;
+  background:
+    radial-gradient(520px 320px at 50% 0%, rgb(201 169 110 / 0.28), transparent 70%),
+    linear-gradient(170deg, var(--burgundy) 0%, var(--burgundy-dark) 100%);
+}
+
+/* Marigold pattern and gold rings, decorative only. */
+.gift-hero::before,
+.gift-hero::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.gift-hero::before {
+  inset: 0;
+  opacity: 0.45;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cg fill='none' stroke='%23C9A96E' stroke-opacity='.22'%3E%3Cpath d='M28 21c2.4 2.6 2.4 11.4 0 14-2.4-2.6-2.4-11.4 0-14zM21 28c2.6-2.4 11.4-2.4 14 0-2.6 2.4-11.4 2.4-14 0z'/%3E%3C/g%3E%3Ccircle cx='28' cy='28' r='1.6' fill='%23C9A96E' fill-opacity='.35'/%3E%3C/svg%3E");
+}
+
+.gift-hero::after {
+  left: 50%;
+  bottom: -150px;
+  width: 360px;
+  height: 260px;
+  transform: translateX(-50%);
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 140'%3E%3Cg fill='none' stroke='%23C9A96E' stroke-width='1' stroke-opacity='.4'%3E%3Ccircle cx='80' cy='70' r='50'/%3E%3Ccircle cx='120' cy='70' r='50'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.gift-hero__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: var(--s-3);
+}
+
+.gift-hero__eyebrow { color: var(--champagne); }
+
+.gift-hero__names {
+  font-size: var(--fs-display);
+  color: var(--ivory);
+  text-wrap: balance;
+}
+
+.gift-hero__date { color: rgb(250 246 239 / 0.86); }
+
+.gift-hero__ornament {
+  width: min(220px, 70%);
+  margin-top: var(--s-2);
+}
+
+.gift-hero .skeleton--short { width: 40%; }
+.gift-hero .skeleton--title { width: 70%; height: 3rem; }
+.skeleton--on-dark { background: rgb(255 255 255 / 0.12); }
+
+/* ---------- Body ---------- */
+.gift-body {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-8);
+  margin-top: calc(-1 * var(--s-10));
+  padding-bottom: var(--s-9);
+}
+
+#problemState.gift-body { margin-top: var(--s-7); }
+
+.gift-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-4);
+  border-color: rgb(201 169 110 / 0.6);
+  box-shadow: 0 30px 60px -30px rgb(82 21 34 / 0.5), 0 0 0 5px rgb(201 169 110 / 0.28);
+}
+
+.gift-card__title { font-size: var(--fs-2xl); }
+
+.gift-card__story {
+  white-space: pre-line;
+  color: var(--ink);
+}
+
+.gift-card__story:empty { display: none; }
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin-bottom: var(--s-4);
+  font-size: var(--fs-2xl);
+}
+
+.section-title::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--champagne), transparent);
+}
+
+.blessing__amount:not(:empty)::before { content: " · "; }
+.blessings-empty { padding-block: var(--s-6); }
+
+/* ---------- Pledges on this device ---------- */
+.my-pledges__list {
+  display: grid;
+  gap: var(--s-3);
+  padding: 0;
+  list-style: none;
+}
+
+.pledge {
+  display: grid;
+  gap: var(--s-2);
+  border-left: 4px solid var(--champagne);
+}
+
+.pledge--confirmed { border-left-color: var(--sage); }
+.pledge--rejected { border-left-color: var(--rose); }
+
+.pledge__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+}
+
+.pledge__amount {
+  font-size: var(--fs-xl);
+  font-weight: 600;
+}
+
+.pledge__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin-top: var(--s-2);
+}
+
+/* ---------- Sticky chip-in bar (phones) ---------- */
+.chip-bar {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 10;
+  padding: var(--s-3) var(--gutter) calc(var(--s-3) + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--border);
+  background: rgb(250 246 239 / 0.94);
+  backdrop-filter: blur(8px);
+  animation: chip-bar-in var(--dur) var(--ease-out);
+}
+
+@keyframes chip-bar-in { from { transform: translateY(100%); } }
+
+@media (min-width: 768px) {
+  .chip-bar { display: none; }
+}
+
+/* ---------- Sheet steps ---------- */
+.sheet__step {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+}
+
+.sheet__step[hidden] { display: none; }
+.sheet__title:focus { outline: none; }
+
+.pay-amount {
+  display: grid;
+  justify-items: center;
+  gap: var(--s-1);
+  padding: var(--s-4);
+  border-radius: var(--radius-card);
+  background: var(--champagne-tint);
+  text-align: center;
+}
+
+.pay-amount__label {
+  font-size: var(--fs-sm);
+  color: var(--muted);
+}
+
+.pay-amount__value {
+  font-size: var(--fs-3xl);
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--burgundy);
+}
+
+.pay-qr {
+  display: grid;
+  justify-items: center;
+  gap: var(--s-3);
+  text-align: center;
+}
+
+.pay-qr__code {
+  width: min(240px, 70vw);
+  aspect-ratio: 1;
+  padding: var(--s-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: #FFFFFF;
+}
+
+.pay-qr__code svg { width: 100%; height: 100%; }
+
+.done {
+  display: grid;
+  justify-items: center;
+  gap: var(--s-3);
+  padding-block: var(--s-6);
+  text-align: center;
+}
+
+.done__icon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--amber-tint);
+  color: var(--amber-ink);
+}
+
+.done__icon svg { width: 30px; height: 30px; }
+
+.done__title {
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  font-weight: 600;
+  line-height: var(--lh-tight);
+  color: var(--burgundy);
+}
+
+.done__made { font-weight: 600; }
+
+/* ---------- Footer ---------- */
+.gift-footer { margin-top: 0; }
+.page-gift.has-chip-bar .gift-footer { padding-bottom: calc(var(--s-6) + 80px); }

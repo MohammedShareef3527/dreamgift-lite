@@ -123,3 +123,81 @@ export function friendlyError(error) {
   if (code === '42501') return 'You don\'t have permission to do that.';
   return 'Something went wrong on our side. Please try again.';
 }
+
+// ---------------------------------------------------------------------------
+// Public gift page (friends, no login). Everything goes through the
+// SECURITY DEFINER functions; friends have no direct table access.
+// ---------------------------------------------------------------------------
+
+/**
+ * A gift's public details, or null when the slug doesn't exist.
+ * @param {string} slug
+ * @returns {Promise<object|null>}
+ */
+export async function getPublicGift(slug) {
+  const rows = unwrap(await supabase.rpc('get_public_gift', { p_slug: slug }));
+  return rows?.[0] ?? null;
+}
+
+/**
+ * The blessings wall, newest first.
+ * @param {string} slug
+ * @returns {Promise<Array<{ name: string, amount_paise: number|null, blessing: string, created_at: string }>>}
+ */
+export async function getPublicBlessings(slug) {
+  return unwrap(await supabase.rpc('get_public_blessings', { p_slug: slug })) ?? [];
+}
+
+/**
+ * Record a friend's pledge.
+ * @param {string} slug
+ * @param {{ name: string, amountPaise: number, blessing: string, showName: boolean }} pledge
+ * @returns {Promise<{ contribution_id: string, edit_token: string }>}
+ */
+export async function createPledge(slug, { name, amountPaise, blessing, showName }) {
+  const rows = unwrap(await supabase.rpc('create_pledge', {
+    p_slug: slug,
+    p_name: name,
+    p_amount_paise: amountPaise,
+    p_blessing: blessing,
+    p_show_name: showName,
+  }));
+  return rows[0];
+}
+
+/**
+ * Tell the organiser this pledge has been paid.
+ * @param {string} id
+ * @param {string} token
+ * @returns {Promise<string>} the pledge's status afterwards
+ */
+export async function markPaid(id, token) {
+  return unwrap(await supabase.rpc('mark_paid', { p_contribution_id: id, p_token: token }));
+}
+
+/**
+ * The latest status of a pledge saved on this device, or null if it's gone.
+ * @param {string} id
+ * @param {string} token
+ * @returns {Promise<{ status: string, amount_paise: number, contributor_name: string, created_at: string }|null>}
+ */
+export async function getMyPledge(id, token) {
+  const rows = unwrap(await supabase.rpc('get_my_pledge', { p_contribution_id: id, p_token: token }));
+  return rows?.[0] ?? null;
+}
+
+/**
+ * Messages for the errors the pledge functions raise on purpose.
+ * @param {any} error
+ * @returns {string}
+ */
+export function pledgeErrorMessage(error) {
+  switch (error?.message) {
+    case 'GIFT_CLOSED': return 'This gift has closed, so it can\'t take new pledges.';
+    case 'DEADLINE_PASSED': return 'The deadline for this gift has passed.';
+    case 'GIFT_FULL': return 'This gift has reached the most pledges it can take.';
+    case 'GIFT_NOT_FOUND': return 'We couldn\'t find this gift. It may have been deleted.';
+    case 'INVALID_TOKEN': return 'We couldn\'t match this pledge to your device.';
+    default: return friendlyError(error);
+  }
+}

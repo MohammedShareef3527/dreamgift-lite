@@ -13,8 +13,8 @@ Stack: plain HTML, CSS and vanilla JavaScript (ES modules) with no build step ·
 | 1. Foundation (tokens, components, `/styleguide`, `vercel.json`) | ✅ Done |
 | 2. Database (`schema.sql`, `tests.sql`) | ✅ Done (70/70 checks pass on Supabase) |
 | 3. Organiser auth + create gift (`/`, `/create`, `/dashboard`) | ✅ Done |
-| 4. Public gift page | Next |
-| 5. Dashboard | — |
+| 4. Public gift page (`/g/{slug}`) | ✅ Done |
+| 5. Dashboard | Next |
 | 6. Keepsake + polish | — |
 | 7. Deploy | — |
 
@@ -48,6 +48,14 @@ How the data is protected:
 
 Organisers sign in with an email magic link (no passwords). The link uses Supabase's implicit flow, so a link requested on a laptop also works when it's opened on a phone. Expired or already-used links bring people back to the sign-in form with a clear message. Supabase's built-in email sender only sends a few emails per hour; for real use, connect your own SMTP provider under **Authentication → Emails**.
 
+## How friends pay
+
+1. A friend opens `/g/{slug}`, taps **Chip in**, and adds their name, amount and an optional blessing.
+2. **Continue to pay** records a pledge and returns a secret token, which is saved only on their device.
+3. On **Android** a "Pay with UPI" button opens their UPI app with the organiser's UPI ID, amount and a note filled in. On **iPhone and desktop**, where UPI links are unreliable, they see a QR code, the UPI ID with a copy button, and the exact amount.
+4. **I've paid** marks the pledge as paid ("Waiting for {organiser} to confirm"). If they leave first, the page remembers the pledge and offers **Pay now** / **I've paid** when they come back.
+5. Progress only moves when the organiser confirms. The page refreshes every 20 seconds while it's open, and the friend sees "Confirmed — thank you!".
+
 ## Project structure
 
 ```
@@ -61,6 +69,9 @@ assets/js/ui.js              toast, sheet, busy buttons, progress, field errors,
 assets/js/supabase.js        the Supabase client (supabase-js pinned on jsDelivr) + sign-in helpers
 assets/js/api.js             organiser database calls and friendly error messages
 assets/js/validate.js        form rules that mirror the database constraints
+assets/js/upi.js             upi://pay links and QR codes (QR library loads only when needed)
+assets/js/pledges.js         remembers a friend's pledges on their device
+assets/vendor/               qrcode-generator 2.0.4 (MIT), unmodified
 assets/js/pages/             one module per page
 assets/img/                  favicon set, Open Graph image
 tools/dev-server.mjs         local server that mirrors vercel.json
