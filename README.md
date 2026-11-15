@@ -11,8 +11,8 @@ Stack: plain HTML, CSS and vanilla JavaScript (ES modules) with no build step ·
 | Phase | State |
 |---|---|
 | 1. Foundation (tokens, components, `/styleguide`, `vercel.json`) | ✅ Done |
-| 2. Database (`schema.sql`, `tests.sql`) | Next |
-| 3. Organiser auth + create gift | — |
+| 2. Database (`schema.sql`, `tests.sql`) | ✅ Done (70/70 checks pass on Supabase) |
+| 3. Organiser auth + create gift | Next |
 | 4. Public gift page | — |
 | 5. Dashboard | — |
 | 6. Keepsake + polish | — |
@@ -28,6 +28,20 @@ node --test tests/               # unit tests
 ```
 
 The dev server applies the clean URLs, rewrites and security headers (including the Content-Security-Policy) from `vercel.json`, so what works locally works on Vercel. VS Code Live Server also works for single pages, but it won't apply the headers or the `/g/{slug}` rewrites.
+
+## Supabase setup
+
+1. In the Supabase dashboard, open **SQL Editor → New query**, paste all of [`supabase/schema.sql`](supabase/schema.sql) and click **Run**. It is safe to run again.
+2. In a new query, paste [`supabase/tests.sql`](supabase/tests.sql) and run it. You should see one row: `PASS: all 70 checks passed`. It creates throwaway test organisers and deletes them afterwards.
+3. Put the project URL and **publishable** (or legacy anon) key in [`assets/js/config.js`](assets/js/config.js). Never use the `service_role` / secret key in the front end.
+
+How the data is protected:
+
+- RLS is on for both tables. Organisers can read and change only their own gifts and those gifts' contributions. Column grants stop them reading friends' token hashes or changing `owner_id` and `slug`.
+- The `anon` role has no table access at all. Friends use five `SECURITY DEFINER` functions: `get_public_gift`, `get_public_blessings`, `create_pledge`, `mark_paid` and `get_my_pledge`.
+- A friend's pledge token is stored only as a SHA-256 hash. The raw token lives on the friend's phone.
+- Progress counts **confirmed** money only. The blessings wall shows friends who have marked their pledge as paid or been confirmed, never hidden blessings, and amounts only when the organiser allows it and the money is confirmed.
+- `authenticated` cannot `select *` from `contributions` (the token-hash column is private), so the front end always names its columns.
 
 ## Project structure
 

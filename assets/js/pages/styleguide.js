@@ -6,7 +6,7 @@ import {
 } from '../ui.js';
 
 const byId = (id) => document.getElementById(id);
-const UPI_PATTERN = /^[a-zA-Z0-9._-]{2,256}@[a-zA-Z][a-zA-Z0-9.-]{1,63}$/;
+const UPI_PATTERN = /^[a-zA-Z0-9._-]{2,64}@[a-zA-Z][a-zA-Z0-9.-]{1,63}$/;
 
 function fillProgressBars() {
   for (const bar of document.querySelectorAll('.progress[data-value]')) {
