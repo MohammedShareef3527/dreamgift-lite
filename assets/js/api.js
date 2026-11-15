@@ -7,7 +7,7 @@ import { supabase } from './supabase.js';
 
 const GIFT_COLUMNS = [
   'id', 'slug', 'couple_names', 'wedding_date', 'gift_title', 'gift_story', 'target_paise',
-  'organiser_name', 'organiser_upi', 'deadline', 'show_amounts', 'status', 'created_at', 'updated_at',
+  'organiser_name', 'organiser_upi', 'deadline', 'show_amounts', 'status', 'razorpay_link', 'created_at', 'updated_at',
 ].join(', ');
 
 /** Thrown when a gift doesn't exist or belongs to someone else (RLS hides both the same way). */
@@ -28,30 +28,36 @@ function unwrap({ data, error }) {
 }
 
 /**
- * The organiser's gifts, newest first, each with its confirmed total.
- * @returns {Promise<Array<object & { confirmed_paise: number, confirmed_count: number }>>}
+ * The organiser's gifts, newest first, each with its confirmed total and
+ * how many payments are waiting for the organiser to confirm.
+ * @returns {Promise<Array<object & { confirmed_paise: number, confirmed_count: number, waiting_count: number }>>}
  */
 export async function listMyGifts() {
   const gifts = unwrap(await supabase.from('group_gifts').select(GIFT_COLUMNS).order('created_at', { ascending: false }));
   if (!gifts.length) return [];
 
-  const confirmed = unwrap(await supabase
+  const rows = unwrap(await supabase
     .from('contributions')
-    .select('gift_id, amount_paise')
-    .eq('status', 'confirmed')
+    .select('gift_id, amount_paise, status')
+    .in('status', ['confirmed', 'marked_paid'])
     .in('gift_id', gifts.map((g) => g.id)));
 
   const totals = new Map();
-  for (const row of confirmed) {
-    const t = totals.get(row.gift_id) || { paise: 0, count: 0 };
-    t.paise += Number(row.amount_paise);
-    t.count += 1;
+  for (const row of rows) {
+    const t = totals.get(row.gift_id) || { paise: 0, count: 0, waiting: 0 };
+    if (row.status === 'confirmed') {
+      t.paise += Number(row.amount_paise);
+      t.count += 1;
+    } else {
+      t.waiting += 1;
+    }
     totals.set(row.gift_id, t);
   }
   return gifts.map((g) => ({
     ...g,
     confirmed_paise: totals.get(g.id)?.paise ?? 0,
     confirmed_count: totals.get(g.id)?.count ?? 0,
+    waiting_count: totals.get(g.id)?.waiting ?? 0,
   }));
 }
 
@@ -94,6 +100,81 @@ export async function createGift(fields) {
  */
 export async function updateGift(id, fields) {
   return unwrap(await supabase.from('group_gifts').update(fields).eq('id', id).select('id, slug').single());
+}
+
+const CONTRIBUTION_COLUMNS = [
+  'id', 'gift_id', 'contributor_name', 'amount_paise', 'blessing', 'blessing_hidden',
+  'show_name', 'status', 'source', 'confirmed_at', 'created_at',
+].join(', ');
+
+/**
+ * Every contribution to one of the organiser's gifts, newest first.
+ * @param {string} giftId
+ * @returns {Promise<Array<object>>}
+ */
+export async function listContributions(giftId) {
+  return unwrap(await supabase
+    .from('contributions')
+    .select(CONTRIBUTION_COLUMNS)
+    .eq('gift_id', giftId)
+    .order('created_at', { ascending: false }));
+}
+
+/**
+ * Confirm, reject or reopen a contribution.
+ * @param {string} id
+ * @param {'confirmed'|'rejected'|'marked_paid'} status
+ * @returns {Promise<object>} the updated row
+ */
+export async function setContributionStatus(id, status) {
+  return unwrap(await supabase.from('contributions').update({ status }).eq('id', id).select(CONTRIBUTION_COLUMNS).single());
+}
+
+/**
+ * Hide an inappropriate blessing from the public wall, or show it again.
+ * @param {string} id
+ * @param {boolean} hidden
+ * @returns {Promise<object>}
+ */
+export async function setBlessingHidden(id, hidden) {
+  return unwrap(await supabase.from('contributions').update({ blessing_hidden: hidden }).eq('id', id).select(CONTRIBUTION_COLUMNS).single());
+}
+
+/**
+ * Record cash (or any money received outside the app). It counts straight away.
+ * @param {string} giftId
+ * @param {{ name: string, amountPaise: number, blessing: string, showName: boolean }} entry
+ * @returns {Promise<object>}
+ */
+export async function addCashContribution(giftId, { name, amountPaise, blessing, showName }) {
+  return unwrap(await supabase.from('contributions').insert({
+    gift_id: giftId,
+    contributor_name: name,
+    amount_paise: amountPaise,
+    blessing,
+    show_name: showName,
+    status: 'confirmed',
+    source: 'cash',
+  }).select(CONTRIBUTION_COLUMNS).single());
+}
+
+/**
+ * Close a gift to new pledges, or reopen it.
+ * @param {string} id
+ * @param {'active'|'closed'} status
+ * @returns {Promise<object>}
+ */
+export async function setGiftStatus(id, status) {
+  return unwrap(await supabase.from('group_gifts').update({ status }).eq('id', id).select(GIFT_COLUMNS).single());
+}
+
+/**
+ * Delete a gift and, with it, every contribution and blessing.
+ * @param {string} id
+ */
+export async function deleteGift(id) {
+  const rows = unwrap(await supabase.from('group_gifts').delete().eq('id', id).select('id'));
+  if (!rows.length) throw new NotFoundError();
 }
 
 /**

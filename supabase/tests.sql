@@ -119,7 +119,7 @@ begin
   perform public._dg_check(
     (select array_agg(k order by k) from jsonb_object_keys(g) k) =
     array['confirmed_paise','contributor_count','couple_names','deadline','gift_story','gift_title','is_open',
-          'organiser_name','organiser_upi','show_amounts','slug','status','target_paise','wedding_date'],
+          'organiser_name','organiser_upi','razorpay_link','show_amounts','slug','status','target_paise','wedding_date'],
     'public gift exposes exactly the public fields (no id, owner_id, timestamps)');
   perform public._dg_check((g->>'confirmed_paise')::bigint = 1000000, 'progress counts confirmed money only (₹10,000, not pledged or waiting)');
   perform public._dg_check((g->>'contributor_count')::int = 3, 'contributor count is confirmed contributions only');
@@ -215,6 +215,11 @@ begin
 
   perform public._dg_check(public._dg_rows($s$update public.contributions set blessing_hidden = true where contributor_name = 'Karthik'$s$) = 1, 'organiser hides a blessing');
   perform public._dg_check(position('Congratulations, you two!' in (select coalesce(jsonb_agg(to_jsonb(x)), '[]')::text from public.get_public_blessings('testgfta') x)) = 0, 'hidden blessing disappears from the public wall');
+  perform public._dg_check(public._dg_rows($s$update public.group_gifts set razorpay_link = 'https://razorpay.me/@rahulmehta' where slug = 'testgfta'$s$) = 1, 'organiser adds a Razorpay link');
+  perform public._dg_check((select razorpay_link from public.get_public_gift('testgfta')) = 'https://razorpay.me/@rahulmehta', 'friends see the Razorpay link');
+  perform public._dg_expect_error($s$update public.group_gifts set razorpay_link = 'javascript:alert(1)' where slug = 'testgfta'$s$, 'a javascript: link is refused', array['23514']);
+  perform public._dg_expect_error($s$update public.group_gifts set razorpay_link = 'https://razorpay.me.evil.com/@x' where slug = 'testgfta'$s$, 'a look-alike domain is refused', array['23514']);
+  perform public._dg_expect_error($s$update public.group_gifts set razorpay_link = 'http://rzp.io/l/abc' where slug = 'testgfta'$s$, 'a non-https link is refused', array['23514']);
   perform public._dg_check(public._dg_rows($s$update public.group_gifts set status = 'closed' where slug = 'testgfta'$s$) = 1, 'organiser closes their gift');
 end;
 $$;

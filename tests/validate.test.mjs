@@ -29,6 +29,7 @@ test('a complete form becomes clean database columns', () => {
     organiser_upi: 'rahul.mehta@okhdfcbank',
     deadline: null,
     show_amounts: false,
+    razorpay_link: null,
   });
 });
 
@@ -85,4 +86,14 @@ test('email check and today helper', () => {
   assert.ok(looksLikeEmail('priya@gmail.com'));
   for (const bad of ['', 'priya', 'priya@', 'priya@gmail', 'a b@c.com']) assert.equal(looksLikeEmail(bad), false, bad);
   assert.equal(todayISO(new Date(2026, 0, 5)), '2026-01-05');
+});
+
+test('Razorpay link: optional, Razorpay domains over https only', () => {
+  const r = (razorpayLink) => validateGift({ ...good, razorpayLink }, { today: TODAY });
+  assert.equal(r('').data.razorpay_link, null);
+  assert.equal(r(' https://razorpay.me/@rahulmehta/ ').data.razorpay_link, 'https://razorpay.me/@rahulmehta');
+  for (const ok of ['https://rzp.io/l/abc123', 'https://pages.razorpay.com/pl_Abc/view']) assert.equal(r(ok).data.razorpay_link, ok);
+  for (const bad of ['javascript:alert(1)', 'http://rzp.io/l/abc', 'https://razorpay.me.evil.com/@x', 'https://evil.com/razorpay.me', 'https://rzp.io/l/a?x=<b>', 'razorpay.me/@x']) {
+    assert.ok(r(bad).errors.razorpayLink, bad);
+  }
 });

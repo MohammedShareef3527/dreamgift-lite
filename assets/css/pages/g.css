@@ -251,3 +251,28 @@
 /* ---------- Footer ---------- */
 .gift-footer { margin-top: 0; }
 .page-gift.has-chip-bar .gift-footer { padding-bottom: calc(var(--s-6) + 80px); }
+
+/* ---------- Razorpay alternative ---------- */
+.pay-alt {
+  display: grid;
+  gap: var(--s-2);
+}
+
+.pay-alt__or {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.pay-alt__or::before,
+.pay-alt__or::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}

@@ -8,7 +8,7 @@ import {
 import { savedPledges, savePledge, forgetPledge } from '../pledges.js';
 import { buildUpiLink, canOpenUpiLink, renderQr } from '../upi.js';
 import { formatRupees, rupeesToPaise, formatDate, daysUntil, ratio, plural, timeAgo } from '../format.js';
-import { LIMITS } from '../validate.js';
+import { LIMITS, RAZORPAY_PATTERN } from '../validate.js';
 import {
   toast, announce, setBusy, openSheet, setProgress, showFieldError, clearFieldError, bindCounter, copyText,
 } from '../ui.js';
@@ -335,6 +335,15 @@ async function showPayStep(pledge) {
   byId('showQrButton').hidden = !deepLink;
   byId('qrBlock').hidden = deepLink;
   byId('qrCode').replaceChildren();
+
+  // Only ever link to a Razorpay https URL (the database enforces this too).
+  const razorpay = gift.razorpay_link && RAZORPAY_PATTERN.test(gift.razorpay_link) ? gift.razorpay_link : null;
+  byId('razorpayBlock').hidden = !razorpay;
+  if (razorpay) {
+    byId('razorpayButton').href = razorpay;
+    byId('razorpayButton').setAttribute('aria-label', `Pay ${amount} by card, netbanking or wallet on Razorpay (opens in a new tab)`);
+    byId('razorpayAmount').textContent = amount;
+  }
   showStep('pay');
   byId('sheetTitle').focus();
   announce(`Pledge saved. Now pay ${amount} to ${gift.organiser_name}.`);

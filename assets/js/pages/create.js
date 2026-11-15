@@ -10,7 +10,7 @@ import { setBusy, showFieldError, clearFieldError, bindCounter, toast, announce 
 const byId = (id) => document.getElementById(id);
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 /** Form controls in the order they appear, so the first error gets focus. */
-const FIELDS = ['coupleNames', 'weddingDate', 'giftTitle', 'giftStory', 'target', 'organiserName', 'organiserUpi', 'deadline'];
+const FIELDS = ['coupleNames', 'weddingDate', 'giftTitle', 'giftStory', 'target', 'organiserName', 'organiserUpi', 'razorpayLink', 'deadline'];
 const GROUPING = new Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 });
 
 const giftId = new URLSearchParams(location.search).get('id');
@@ -54,6 +54,7 @@ function fillForm(gift) {
   byId('target').value = GROUPING.format(gift.target_paise / 100);
   byId('organiserName').value = gift.organiser_name;
   byId('organiserUpi').value = gift.organiser_upi;
+  byId('razorpayLink').value = gift.razorpay_link || '';
   byId('deadline').value = gift.deadline || '';
   byId('showAmounts').checked = gift.show_amounts;
   byId('giftStory').dispatchEvent(new Event('input')); // refresh the counter
@@ -104,8 +105,9 @@ async function onSubmit(event) {
   try {
     const saved = isEdit ? await updateGift(giftId, data) : await createGift(data);
     dirty = false;
-    const param = isEdit ? 'saved' : 'created';
-    location.assign(`/dashboard?${param}=${encodeURIComponent(saved.slug)}`);
+    location.assign(isEdit
+      ? `/dashboard?gift=${encodeURIComponent(saved.id)}&saved=1`
+      : `/dashboard?gift=${encodeURIComponent(saved.id)}&created=1`);
   } catch (error) {
     submitting = false;
     setBusy(button, false);

@@ -14,8 +14,8 @@ Stack: plain HTML, CSS and vanilla JavaScript (ES modules) with no build step ·
 | 2. Database (`schema.sql`, `tests.sql`) | ✅ Done (70/70 checks pass on Supabase) |
 | 3. Organiser auth + create gift (`/`, `/create`, `/dashboard`) | ✅ Done |
 | 4. Public gift page (`/g/{slug}`) | ✅ Done |
-| 5. Dashboard | Next |
-| 6. Keepsake + polish | — |
+| 5. Dashboard (confirm / reject, cash, hide blessing, close / delete, CSV, share) + Razorpay option | ✅ Done |
+| 6. Keepsake + polish | Next |
 | 7. Deploy | — |
 
 ## Run it locally
@@ -32,7 +32,7 @@ The dev server applies the clean URLs, rewrites and security headers (including 
 ## Supabase setup
 
 1. In the Supabase dashboard, open **SQL Editor → New query**, paste all of [`supabase/schema.sql`](supabase/schema.sql) and click **Run**. It is safe to run again.
-2. In a new query, paste [`supabase/tests.sql`](supabase/tests.sql) and run it. You should see one row: `PASS: all 70 checks passed`. It creates throwaway test organisers and deletes them afterwards.
+2. In a new query, paste [`supabase/tests.sql`](supabase/tests.sql) and run it. You should see one row: `PASS: all 75 checks passed`. It creates throwaway test organisers and deletes them afterwards.
 3. Under **Authentication → URL Configuration**, set **Site URL** to `http://localhost:5173` and add `http://localhost:5173/**` to **Redirect URLs**. Magic links only send people back to addresses on that list. When the app is deployed, add the Vercel domain the same way.
 4. Put the project URL and **publishable** (or legacy anon) key in [`assets/js/config.js`](assets/js/config.js). Never use the `service_role` / secret key in the front end.
 
@@ -55,6 +55,14 @@ Organisers sign in with an email magic link (no passwords). The link uses Supaba
 3. On **Android** a "Pay with UPI" button opens their UPI app with the organiser's UPI ID, amount and a note filled in. On **iPhone and desktop**, where UPI links are unreliable, they see a QR code, the UPI ID with a copy button, and the exact amount.
 4. **I've paid** marks the pledge as paid ("Waiting for {organiser} to confirm"). If they leave first, the page remembers the pledge and offers **Pay now** / **I've paid** when they come back.
 5. Progress only moves when the organiser confirms. The page refreshes every 20 seconds while it's open, and the friend sees "Confirmed — thank you!".
+
+## Optional: Razorpay
+
+Organisers can paste their **own** Razorpay payment link (`https://razorpay.me/@…`, `https://rzp.io/…` or `https://pages.razorpay.com/…`) when creating a gift. Friends then also see **Pay by card, netbanking or wallet**, which opens that Razorpay page in a new tab with the exact amount to enter. The money goes to the organiser's Razorpay account and Razorpay's fees apply. DreamGift Lite still never holds money or any Razorpay keys, and the friend still taps **I've paid** so the organiser can confirm. The database only accepts https links on those three Razorpay domains.
+
+## Managing a gift
+
+`/dashboard?gift={id}` shows confirmed / waiting / pledged totals, a share card (copy link, WhatsApp, downloadable QR PNG), and every contribution with filters. One tap confirms, rejects or undoes a payment, hides an inappropriate blessing from the public wall, or adds cash received in person. Organisers can export a CSV (formula-safe for Excel), close or reopen the gift, and delete it after a confirmation step. New "I've paid" taps appear within 30 seconds.
 
 ## Project structure
 

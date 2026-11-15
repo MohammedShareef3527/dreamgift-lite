@@ -107,6 +107,16 @@ create table if not exists public.group_gifts (
   updated_at    timestamptz not null default now()
 );
 
+-- Optional: the organiser's own Razorpay payment link, so friends can also pay
+-- by card / netbanking / wallet. Money goes to the organiser's Razorpay account;
+-- the app only shows the link. Only https links on Razorpay's own domains, with
+-- no query string, are accepted (so it can never be a javascript: or phishing URL).
+alter table public.group_gifts add column if not exists razorpay_link text;
+alter table public.group_gifts drop constraint if exists group_gifts_razorpay_link_format;
+alter table public.group_gifts add constraint group_gifts_razorpay_link_format
+  check (razorpay_link is null
+         or razorpay_link ~ '^https://(rzp\.io|razorpay\.me|pages\.razorpay\.com)/[A-Za-z0-9@._~/-]{1,120}$');
+
 create table if not exists public.contributions (
   id               uuid primary key default gen_random_uuid(),
   gift_id          uuid not null references public.group_gifts (id) on delete cascade,
@@ -154,10 +164,10 @@ revoke all on public.group_gifts, public.contributions from public, anon, authen
 
 grant select, delete on public.group_gifts to authenticated;
 grant insert (couple_names, wedding_date, gift_title, gift_story, target_paise,
-              organiser_name, organiser_upi, deadline, show_amounts)
+              organiser_name, organiser_upi, deadline, show_amounts, razorpay_link)
   on public.group_gifts to authenticated;
 grant update (couple_names, wedding_date, gift_title, gift_story, target_paise,
-              organiser_name, organiser_upi, deadline, show_amounts, status)
+              organiser_name, organiser_upi, deadline, show_amounts, status, razorpay_link)
   on public.group_gifts to authenticated;
 
 grant select (id, gift_id, contributor_name, amount_paise, blessing, blessing_hidden,
@@ -236,6 +246,7 @@ returns table (
   deadline          date,
   show_amounts      boolean,
   status            text,
+  razorpay_link     text,
   is_open           boolean,
   confirmed_paise   bigint,
   contributor_count integer
@@ -247,7 +258,7 @@ set search_path = public
 as $$
   select
     g.slug, g.couple_names, g.wedding_date, g.gift_title, g.gift_story, g.target_paise,
-    g.organiser_name, g.organiser_upi, g.deadline, g.show_amounts, g.status,
+    g.organiser_name, g.organiser_upi, g.deadline, g.show_amounts, g.status, g.razorpay_link,
     g.status = 'active' and (g.deadline is null or g.deadline >= public.today_ist()),
     coalesce(sum(c.amount_paise) filter (where c.status = 'confirmed'), 0)::bigint,
     (count(c.id) filter (where c.status = 'confirmed'))::integer

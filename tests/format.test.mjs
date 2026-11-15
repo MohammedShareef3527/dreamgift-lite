@@ -49,3 +49,11 @@ test('plural', () => {
   assert.equal(plural(8, 'friend'), '8 friends');
   assert.equal(plural(1200, 'friend'), '1,200 friends');
 });
+
+test('toCsv quotes, escapes and defuses formulas', async () => {
+  const { toCsv } = await import('../assets/js/format.js');
+  assert.equal(toCsv([['Name', 'Amount'], ['Priya', 1000]]), 'Name,Amount\r\nPriya,1000');
+  assert.equal(toCsv([['A, B', 'say "hi"', 'line\nbreak']]), '"A, B","say ""hi""","line\nbreak"');
+  assert.equal(toCsv([['=HYPERLINK("x")', '+91', '-1', '@sum', 'normal']]), '"\'=HYPERLINK(""x"")",\'+91,\'-1,\'@sum,normal');
+  assert.equal(toCsv([[-500, null, undefined, true]]), '-500,,,true');
+});

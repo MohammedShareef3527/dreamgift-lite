@@ -124,3 +124,19 @@ export function timeAgo(value, now = new Date()) {
   if (days < 7) return RELATIVE.format(-days, 'day');
   return DATE.format(then);
 }
+
+/**
+ * Rows → CSV text (RFC 4180). Cells that a spreadsheet would treat as a
+ * formula (=, +, -, @, tab, CR) get a leading apostrophe so a friend's name
+ * or blessing can never run as a formula when the organiser opens the file.
+ * @param {Array<Array<string|number|boolean|null|undefined>>} rows
+ * @returns {string}
+ */
+export function toCsv(rows) {
+  const cell = (value) => {
+    let text = value === null || value === undefined ? '' : String(value);
+    if (typeof value === 'string' && /^[=+\-@\t\r]/.test(text)) text = `'${text}`;
+    return /[",\r\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+  };
+  return rows.map((row) => row.map(cell).join(',')).join('\r\n');
+}

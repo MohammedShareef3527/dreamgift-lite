@@ -40,6 +40,12 @@
 
   <svg class="visually-hidden" aria-hidden="true" focusable="false">
     <symbol id="i-gift" viewBox="0 0 24 24"><rect x="3.5" y="8.5" width="17" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 12.5v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7M12 8.5v12M12 8.5S10.5 4 8 4.5 7 8.5 12 8.5zm0 0s1.5-4.5 4-4 1 4-4 4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 15V6a2 2 0 0 1 2-2h8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="i-whatsapp" viewBox="0 0 24 24"><path d="M4 20l1.2-3.9A8 8 0 1 1 8 19z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 9.5c.3 2.2 2.3 4.4 4.6 5l1.2-1.3-1.7-.9-.8.8c-.9-.4-1.7-1.2-2.1-2.1l.8-.8-.9-1.7z" fill="currentColor"/></symbol>
+    <symbol id="i-qr" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/></g><path d="M14 14h2v2h-2zM18 14h2v2h-2zM16 16h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z" fill="currentColor"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-cloud-off" viewBox="0 0 24 24"><path d="M3 3l18 18M8.5 8.6A5 5 0 0 0 7 18h10.5M20.6 16.4A3.5 3.5 0 0 0 17 11h-.2A5 5 0 0 0 11 7.1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
   </svg>
 
@@ -53,43 +59,159 @@
   </header>
 
   <main id="main" class="container container--wide dash">
-    <div class="dash__head">
-      <div>
-        <h1>Your gifts</h1>
-        <p class="text-muted text-sm" id="whoAmI"></p>
+    <!-- ================= All gifts ================= -->
+    <div id="listView">
+      <div class="dash__head">
+        <div>
+          <h1 id="listTitle" tabindex="-1">Your gifts</h1>
+          <p class="text-muted text-sm" id="whoAmI"></p>
+        </div>
+        <a class="btn btn--primary" href="/create" id="newGift">Start a group gift</a>
       </div>
-      <a class="btn btn--primary" href="/create" id="newGift">Start a group gift</a>
-    </div>
 
-    <div class="gift-list" id="loadingState" aria-busy="true">
-      <span class="visually-hidden">Loading your gifts…</span>
-      <div class="card card--surface gift-card" aria-hidden="true">
-        <div class="skeleton skeleton--short"></div>
-        <div class="skeleton skeleton--title"></div>
-        <div class="skeleton skeleton--bar"></div>
+      <div class="gift-list" id="loadingState" aria-busy="true">
+        <span class="visually-hidden">Loading your gifts…</span>
+        <div class="card card--surface gift-card" aria-hidden="true">
+          <div class="skeleton skeleton--short"></div>
+          <div class="skeleton skeleton--title"></div>
+          <div class="skeleton skeleton--bar"></div>
+        </div>
+        <div class="card card--surface gift-card" aria-hidden="true">
+          <div class="skeleton skeleton--short"></div>
+          <div class="skeleton skeleton--title"></div>
+          <div class="skeleton skeleton--bar"></div>
+        </div>
       </div>
-      <div class="card card--surface gift-card" aria-hidden="true">
-        <div class="skeleton skeleton--short"></div>
-        <div class="skeleton skeleton--title"></div>
-        <div class="skeleton skeleton--bar"></div>
+
+      <div class="card card--surface state" id="emptyState" hidden>
+        <span class="state__icon" aria-hidden="true"><svg><use href="#i-gift"/></svg></span>
+        <h2 class="state__title">No gift pages yet</h2>
+        <p class="state__text">Start one in two minutes and share it on WhatsApp.</p>
+        <div class="state__actions"><a class="btn btn--primary" href="/create">Start a group gift</a></div>
+      </div>
+
+      <div class="card card--surface state state--error" id="errorState" hidden>
+        <span class="state__icon" aria-hidden="true"><svg><use href="#i-cloud-off"/></svg></span>
+        <h2 class="state__title">We couldn't load your gifts</h2>
+        <p class="state__text" id="errorText"></p>
+        <div class="state__actions"><button class="btn btn--primary" type="button" id="retryButton">Try again</button></div>
+      </div>
+
+      <ul class="gift-list" id="giftList" aria-label="Your gift pages" hidden></ul>
+    </div>
+
+    <!-- ================= One gift ================= -->
+    <div id="detailView" hidden>
+      <a class="back-link" href="/dashboard" id="backLink"><svg aria-hidden="true"><use href="#i-back"/></svg>All gifts</a>
+
+      <div id="detailLoading" aria-busy="true">
+        <span class="visually-hidden">Loading the gift…</span>
+        <div class="skeleton skeleton--short" aria-hidden="true"></div>
+        <div class="skeleton skeleton--title" aria-hidden="true"></div>
+        <div class="skeleton skeleton--block" aria-hidden="true"></div>
+      </div>
+
+      <div class="card card--surface state state--error" id="detailError" hidden>
+        <span class="state__icon" aria-hidden="true"><svg><use href="#i-cloud-off"/></svg></span>
+        <h2 class="state__title" id="detailErrorTitle">We couldn't load this gift</h2>
+        <p class="state__text" id="detailErrorText"></p>
+        <div class="state__actions cluster">
+          <button class="btn btn--primary" type="button" id="detailRetry">Try again</button>
+          <a class="btn btn--ghost" href="/dashboard">All gifts</a>
+        </div>
+      </div>
+
+      <div id="detailContent" hidden>
+        <div class="detail-head">
+          <div class="detail-head__text">
+            <p class="eyebrow" id="dFor"></p>
+            <h1 class="detail-head__title" id="dTitle" tabindex="-1"></h1>
+          </div>
+          <span class="badge" id="dStatus"></span>
+        </div>
+
+        <div class="detail-grid">
+          <section class="card card--surface card--accent detail-progress" aria-label="Progress">
+            <div class="progress-summary">
+              <span class="progress-summary__raised num" id="dRaised"></span>
+              <span class="progress-summary__target" id="dTarget"></span>
+            </div>
+            <div class="progress progress--lg" id="dBar" role="progressbar" aria-label="Confirmed so far" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+              <div class="progress__fill"></div>
+            </div>
+            <dl class="tally">
+              <div class="tally__item"><dt>Confirmed</dt><dd class="num" id="tConfirmed"></dd></div>
+              <div class="tally__item tally__item--waiting"><dt>Waiting for you</dt><dd class="num" id="tWaiting"></dd></div>
+              <div class="tally__item"><dt>Pledged, not paid</dt><dd class="num" id="tPledged"></dd></div>
+            </dl>
+          </section>
+
+          <section class="card card--surface share" aria-labelledby="shareTitle">
+            <h2 class="card__title" id="shareTitle">Share with friends</h2>
+            <div class="field">
+              <span class="field__label" id="shareLinkLabel">Gift page link</span>
+              <div class="copy-field">
+                <span class="copy-field__value" id="shareLink"></span>
+                <button class="btn btn--ghost btn--sm" type="button" id="copyLink" aria-describedby="shareLinkLabel"><svg aria-hidden="true"><use href="#i-copy"/></svg>Copy</button>
+              </div>
+            </div>
+            <div class="share__actions">
+              <a class="btn btn--whatsapp" id="whatsappLink" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#i-whatsapp"/></svg>Share on WhatsApp</a>
+              <button class="btn btn--secondary" type="button" id="downloadQr"><svg aria-hidden="true"><use href="#i-qr"/></svg>Download QR code</button>
+              <a class="btn btn--ghost" id="viewPage" target="_blank" rel="noopener">View gift page</a>
+            </div>
+          </section>
+        </div>
+
+        <section class="contribs" aria-labelledby="contribTitle">
+          <div class="contribs__head">
+            <h2 class="contribs__title" id="contribTitle">Contributions</h2>
+            <div class="cluster">
+              <button class="btn btn--secondary btn--sm" type="button" id="addCash">Add cash</button>
+              <button class="btn btn--ghost btn--sm" type="button" id="exportCsv">Export CSV</button>
+            </div>
+          </div>
+
+          <div class="filters" role="group" aria-label="Show contributions">
+            <button class="filter" type="button" data-filter="all" aria-pressed="true">All <span class="filter__count" data-count="all"></span></button>
+            <button class="filter" type="button" data-filter="marked_paid" aria-pressed="false">Waiting <span class="filter__count" data-count="marked_paid"></span></button>
+            <button class="filter" type="button" data-filter="pledged" aria-pressed="false">Pledged <span class="filter__count" data-count="pledged"></span></button>
+            <button class="filter" type="button" data-filter="confirmed" aria-pressed="false">Confirmed <span class="filter__count" data-count="confirmed"></span></button>
+            <button class="filter" type="button" data-filter="rejected" aria-pressed="false">Rejected <span class="filter__count" data-count="rejected"></span></button>
+          </div>
+
+          <div class="table-wrap" id="contribTableWrap">
+            <table class="table contribs__table">
+              <caption class="visually-hidden" id="contribCaption">Contributions</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Friend</th>
+                  <th scope="col" class="num">Amount</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Blessing</th>
+                  <th scope="col"><span class="visually-hidden">Actions</span></th>
+                </tr>
+              </thead>
+              <tbody id="contribRows"></tbody>
+            </table>
+          </div>
+          <div class="card card--quiet state contribs__empty" id="contribEmpty" hidden>
+            <span class="state__icon" aria-hidden="true"><svg><use href="#i-heart"/></svg></span>
+            <p class="state__text" id="contribEmptyText"></p>
+          </div>
+        </section>
+
+        <section class="card card--quiet manage" aria-labelledby="manageTitle">
+          <h2 class="card__title" id="manageTitle">Manage this gift</h2>
+          <div class="manage__actions">
+            <a class="btn btn--secondary btn--sm" id="editLink">Edit details</a>
+            <button class="btn btn--secondary btn--sm" type="button" id="toggleClosed">Close gift</button>
+            <button class="btn btn--danger btn--sm" type="button" id="deleteGift">Delete gift</button>
+          </div>
+          <p class="text-sm text-muted" id="closeHint"></p>
+        </section>
       </div>
     </div>
-
-    <div class="card card--surface state" id="emptyState" hidden>
-      <span class="state__icon" aria-hidden="true"><svg><use href="#i-gift"/></svg></span>
-      <h2 class="state__title">No gift pages yet</h2>
-      <p class="state__text">Start one in two minutes and share it on WhatsApp.</p>
-      <div class="state__actions"><a class="btn btn--primary" href="/create">Start a group gift</a></div>
-    </div>
-
-    <div class="card card--surface state state--error" id="errorState" hidden>
-      <span class="state__icon" aria-hidden="true"><svg><use href="#i-cloud-off"/></svg></span>
-      <h2 class="state__title">We couldn't load your gifts</h2>
-      <p class="state__text" id="errorText"></p>
-      <div class="state__actions"><button class="btn btn--primary" type="button" id="retryButton">Try again</button></div>
-    </div>
-
-    <ul class="gift-list" id="giftList" aria-label="Your gift pages" hidden></ul>
 
     <template id="giftCardTemplate">
       <li class="card card--surface card--accent gift-card">
@@ -106,12 +228,98 @@
           <div class="progress__fill"></div>
         </div>
         <p class="text-sm text-muted" data-field="stats"></p>
+        <p class="gift-card__waiting" data-field="waiting" hidden></p>
         <div class="gift-card__actions">
-          <a class="btn btn--primary btn--sm" data-field="view" target="_blank" rel="noopener">View gift page</a>
-          <a class="btn btn--secondary btn--sm" data-field="edit">Edit details</a>
+          <a class="btn btn--primary btn--sm" data-field="manage">Manage</a>
+          <a class="btn btn--secondary btn--sm" data-field="view" target="_blank" rel="noopener">View gift page</a>
+          <a class="btn btn--ghost btn--sm" data-field="edit">Edit details</a>
         </div>
       </li>
     </template>
+
+    <template id="rowTemplate">
+      <tr>
+        <td data-label="Friend">
+          <span class="contrib__who">
+            <span class="contrib__name" data-field="name"></span>
+            <span class="contrib__meta" data-field="meta"></span>
+          </span>
+        </td>
+        <td data-label="Amount" class="num" data-field="amount"></td>
+        <td data-label="Status"><span class="badge" data-field="badge"></span></td>
+        <td data-label="Blessing" class="contrib__blessing-cell">
+          <span class="contrib__blessing" data-field="blessing"></span>
+          <button class="btn btn--ghost btn--sm contrib__hide" type="button" data-action="hide" hidden></button>
+        </td>
+        <td><div class="table__actions" data-field="actions"></div></td>
+      </tr>
+    </template>
   </main>
+
+  <!-- Add cash -->
+  <dialog class="sheet" id="cashSheet" aria-labelledby="cashTitle">
+    <div class="sheet__handle" aria-hidden="true"></div>
+    <div class="sheet__header">
+      <h2 class="sheet__title" id="cashTitle">Add a cash contribution</h2>
+      <button class="btn btn--ghost btn--icon" type="button" data-sheet-close aria-label="Close"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+    </div>
+    <form class="sheet__step" id="cashForm" novalidate>
+      <div class="sheet__body stack stack--lg">
+        <p class="text-sm text-muted">For money you received in person or outside the app. It counts as confirmed straight away.</p>
+        <div class="field">
+          <label class="field__label" for="cashName">Friend's name</label>
+          <input class="input" id="cashName" name="name" maxlength="60" autocomplete="off" required>
+          <p class="field__error" id="cashName-error" hidden></p>
+        </div>
+        <div class="field">
+          <label class="field__label" for="cashAmount">Amount</label>
+          <div class="input-affix">
+            <span class="input-affix__prefix" aria-hidden="true">₹</span>
+            <input class="input num" id="cashAmount" name="amount" inputmode="decimal" autocomplete="off" required aria-describedby="cashAmount-hint">
+          </div>
+          <p class="field__hint" id="cashAmount-hint">Between ₹10 and ₹1,00,000.</p>
+          <p class="field__error" id="cashAmount-error" hidden></p>
+        </div>
+        <div class="field">
+          <div class="field__meta">
+            <label class="field__label" for="cashBlessing">Their blessing <span class="field__optional">(optional)</span></label>
+            <span class="field__counter" id="cashBlessingCount" aria-hidden="true"></span>
+          </div>
+          <textarea class="input" id="cashBlessing" name="blessing" rows="3"></textarea>
+          <p class="field__error" id="cashBlessing-error" hidden></p>
+        </div>
+        <label class="toggle">
+          <input class="toggle__input" id="cashShowName" name="showName" type="checkbox" role="switch" checked>
+          <span class="toggle__track" aria-hidden="true"></span>
+          <span class="toggle__text">
+            <span class="toggle__label">Show their name publicly</span>
+            <span class="toggle__hint">Otherwise they appear as "A friend".</span>
+          </span>
+        </label>
+        <div class="notice notice--error" id="cashError" role="alert" hidden><p id="cashErrorText"></p></div>
+      </div>
+      <div class="sheet__footer">
+        <button class="btn btn--primary btn--block btn--lg" type="submit" id="cashSubmit">Add contribution</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Delete confirmation -->
+  <dialog class="sheet" id="deleteSheet" aria-labelledby="deleteTitle" aria-describedby="deleteText">
+    <div class="sheet__handle" aria-hidden="true"></div>
+    <div class="sheet__header">
+      <h2 class="sheet__title" id="deleteTitle">Delete this gift page?</h2>
+      <button class="btn btn--ghost btn--icon" type="button" data-sheet-close aria-label="Close"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+    </div>
+    <div class="sheet__body stack">
+      <p id="deleteText"></p>
+      <p class="text-sm text-muted">Friends' money isn't affected: it went straight to you. If you only want to stop new pledges, close the gift instead.</p>
+      <div class="notice notice--error" id="deleteError" role="alert" hidden><p id="deleteErrorText"></p></div>
+    </div>
+    <div class="sheet__footer sheet__footer--split">
+      <button class="btn btn--ghost" type="button" data-sheet-close>Keep it</button>
+      <button class="btn btn--danger" type="button" id="confirmDelete">Delete forever</button>
+    </div>
+  </dialog>
 </body>
 </html>

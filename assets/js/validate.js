@@ -14,6 +14,9 @@ export const LIMITS = Object.freeze({
   maxTargetPaise: 1_00_00_000_00,  // ₹1 crore (matches the database)
 });
 
+/** Same pattern as the database check on razorpay_link: https, Razorpay's own domains, no query string. */
+export const RAZORPAY_PATTERN = /^https:\/\/(rzp\.io|razorpay\.me|pages\.razorpay\.com)\/[A-Za-z0-9@._~/-]{1,120}$/;
+
 /** Same pattern as the database check on organiser_upi. */
 export const UPI_PATTERN = /^[A-Za-z0-9._-]{2,64}@[A-Za-z][A-Za-z0-9.-]{1,63}$/;
 
@@ -87,6 +90,11 @@ export function validateGift(values, { today = todayISO(), originalDeadline = nu
     else if (deadline < today && deadline !== originalDeadline) errors.deadline = 'The deadline can\'t be in the past.';
   }
 
+  const razorpayLink = text('razorpayLink').replace(/\/+$/, '');
+  if (razorpayLink && !RAZORPAY_PATTERN.test(razorpayLink)) {
+    errors.razorpayLink = 'Paste a Razorpay link that starts with https://razorpay.me/, https://rzp.io/ or https://pages.razorpay.com/.';
+  }
+
   if (Object.keys(errors).length) return { data: null, errors };
   return {
     errors,
@@ -100,6 +108,7 @@ export function validateGift(values, { today = todayISO(), originalDeadline = nu
       organiser_upi: organiserUpi,
       deadline: deadline || null,
       show_amounts: values.showAmounts === true,
+      razorpay_link: razorpayLink || null,
     },
   };
 }

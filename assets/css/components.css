@@ -1009,3 +1009,27 @@ html:has(dialog[open]) { overflow: hidden; }
     var(--ivory);
   background-repeat: no-repeat;
 }
+
+/* Destructive action (rose on white text: 6.0:1). */
+.btn--danger {
+  --btn-bg: var(--rose);
+  --btn-fg: #FFFFFF;
+}
+
+.btn--danger:hover:not(:disabled),
+.btn--danger:active:not(:disabled) { --btn-bg: var(--rose-ink); }
+
+/* WhatsApp share (deep WhatsApp green so white text passes AA). */
+.btn--whatsapp {
+  --btn-bg: #0F7B5F;
+  --btn-fg: #FFFFFF;
+}
+
+.btn--whatsapp:hover:not(:disabled) { --btn-bg: #0B5F49; }
+.btn svg { width: 1.15em; height: 1.15em; flex: none; }
+
+.sheet__footer--split {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--s-3);
+}
